@@ -1,0 +1,35 @@
+name: Dependency Audit
+
+on:
+  schedule:
+    - cron: '0 2 * * 1' # 每週一 02:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@42dc69e1aa15d09112580998cf2ef0119e2e91ae # v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9 # stable
+        with:
+          toolchain: stable
+
+      - name: npm audit
+        run: npm audit --audit-level=high
+
+      - name: cargo audit
+        run: |
+          cargo install cargo-audit --quiet
+          cd src-tauri && cargo audit

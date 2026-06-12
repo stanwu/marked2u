@@ -62,12 +62,6 @@ jobs:
         with:
           workspaces: './src-tauri -> target'
 
-      - name: Audit dependencies
-        run: |
-          npm audit --audit-level=high
-          cargo install cargo-audit --quiet
-          cd src-tauri && cargo audit
-
       - name: Install frontend dependencies
         run: npm ci
 
@@ -163,12 +157,6 @@ jobs:
         uses: Swatinem/rust-cache@ea165f8d65b6e75b540449e92b4886f43607fa02 # v2
         with:
           workspaces: './src-tauri -> target'
-
-      - name: Audit dependencies
-        run: |
-          npm audit --audit-level=high
-          cargo install cargo-audit --quiet
-          cd src-tauri && cargo audit
 
       - name: Install frontend dependencies
         run: npm ci

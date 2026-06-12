@@ -111,11 +111,13 @@ jobs:
           args: --bundles deb,rpm
 
       - name: Scan with ClamAV
+        env:
+          ARTIFACT_PATHS: ${{ steps.tauri.outputs.artifactPaths }}
         run: |
           sudo apt-get install -y clamav
           sudo systemctl stop clamav-freshclam || true
           sudo freshclam
-          echo "${{ steps.tauri.outputs.artifactPaths }}" | tr ',' '\n' | while read -r f; do
+          echo "$ARTIFACT_PATHS" | python3 -c "import sys,json; [print(p) for p in json.load(sys.stdin)]" | while read -r f; do
             [ -f "$f" ] || continue
             echo "Scanning $f"
             clamscan --no-summary "$f" || (echo "INFECTED: $f" && exit 1)
@@ -173,10 +175,11 @@ jobs:
 
       - name: Scan with Windows Defender
         shell: pwsh
+        env:
+          ARTIFACT_PATHS: ${{ steps.tauri.outputs.artifactPaths }}
         run: |
-          $artifacts = "${{ steps.tauri.outputs.artifactPaths }}" -split ","
+          $artifacts = $env:ARTIFACT_PATHS | ConvertFrom-Json
           foreach ($f in $artifacts) {
-            $f = $f.Trim()
             if (-not (Test-Path $f)) { continue }
             Write-Host "Scanning $f"
             $result = Start-Process -FilePath "C:\Program Files\Windows Defender\MpCmdRun.exe" `

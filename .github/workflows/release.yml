@@ -32,7 +32,7 @@ jobs:
     if: ${{ inputs.linux }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ inputs.version }}
 
@@ -47,18 +47,26 @@ jobs:
             rpm
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@42dc69e1aa15d09112580998cf2ef0119e2e91ae # v4
         with:
           node-version: '22'
           cache: 'npm'
 
       - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9 # stable
+        with:
+          toolchain: stable
 
       - name: Cache Rust dependencies
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@ea165f8d65b6e75b540449e92b4886f43607fa02 # v2
         with:
           workspaces: './src-tauri -> target'
+
+      - name: Audit dependencies
+        run: |
+          npm audit --audit-level=high
+          cargo install cargo-audit --quiet
+          cd src-tauri && cargo audit
 
       - name: Install frontend dependencies
         run: npm ci
@@ -68,7 +76,7 @@ jobs:
 
       - name: Build Tauri app
         id: tauri
-        uses: tauri-apps/tauri-action@v0
+        uses: tauri-apps/tauri-action@49933ea5288caeca8642d1e84afbd3f7d6820020 # v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -125,7 +133,7 @@ jobs:
           echo "ClamAV scan passed."
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@fce9c6108b31ea247710505d3aaaa893ee6768d4 # v4
         with:
           name: artifacts-linux
           path: ${{ steps.tauri.outputs.artifactPaths }}
@@ -136,23 +144,31 @@ jobs:
     if: ${{ inputs.windows }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: ${{ inputs.version }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@42dc69e1aa15d09112580998cf2ef0119e2e91ae # v4
         with:
           node-version: '22'
           cache: 'npm'
 
       - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@3c5f7ea28cd621ae0bf5283f0e981fb97b8a7af9 # stable
+        with:
+          toolchain: stable
 
       - name: Cache Rust dependencies
-        uses: Swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@ea165f8d65b6e75b540449e92b4886f43607fa02 # v2
         with:
           workspaces: './src-tauri -> target'
+
+      - name: Audit dependencies
+        run: |
+          npm audit --audit-level=high
+          cargo install cargo-audit --quiet
+          cd src-tauri && cargo audit
 
       - name: Install frontend dependencies
         run: npm ci
@@ -162,7 +178,7 @@ jobs:
 
       - name: Build Tauri app
         id: tauri
-        uses: tauri-apps/tauri-action@v0
+        uses: tauri-apps/tauri-action@49933ea5288caeca8642d1e84afbd3f7d6820020 # v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -193,7 +209,7 @@ jobs:
           Write-Host "Windows Defender scan passed."
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@fce9c6108b31ea247710505d3aaaa893ee6768d4 # v4
         with:
           name: artifacts-windows
           path: ${{ steps.tauri.outputs.artifactPaths }}

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>marked2u</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" src="/main.js"></script>
+  </head>
+  <body>
+    <div id="drop-overlay">
+      <div class="drop-message">拖曳 .md 檔案到這裡</div>
+    </div>
+    <div id="empty-state">
+      <div class="empty-icon">📄</div>
+      <h2>marked2u</h2>
+      <p>拖曳 Markdown 檔案到這裡，或執行：</p>
+      <code>marked2u yourfile.md</code>
+    </div>
+    <article id="preview" class="markdown-body"></article>
+  </body>
+</html>

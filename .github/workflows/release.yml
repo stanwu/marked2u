@@ -167,7 +167,7 @@ jobs:
           retention-days: 1
 
   publish:
-    needs: [build, virustotal]
+    needs: [build]
     runs-on: ubuntu-latest
     if: ${{ success() }}
 

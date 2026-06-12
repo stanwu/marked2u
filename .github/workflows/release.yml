@@ -1,9 +1,27 @@
 name: Release
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g. v0.2.0)'
+        required: true
+        type: string
+      linux:
+        description: 'Build Linux (.deb, .rpm)'
+        required: true
+        type: boolean
+        default: true
+      windows:
+        description: 'Build Windows (.exe, .msi)'
+        required: true
+        type: boolean
+        default: true
+      prerelease:
+        description: 'Mark as pre-release'
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -16,13 +34,21 @@ jobs:
         include:
           - platform: ubuntu-22.04
             targets: deb,rpm
+            enabled_input: linux
           - platform: windows-latest
             targets: nsis,msi
+            enabled_input: windows
 
     runs-on: ${{ matrix.platform }}
+    if: ${{ (matrix.enabled_input == 'linux' && inputs.linux) || (matrix.enabled_input == 'windows' && inputs.windows) }}
+
+    outputs:
+      artifacts: ${{ steps.tauri.outputs.artifactPaths }}
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.version }}
 
       - name: Install system dependencies (Linux)
         if: matrix.platform == 'ubuntu-22.04'
@@ -56,14 +82,15 @@ jobs:
         run: npm run build
 
       - name: Build Tauri app
+        id: tauri
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: ${{ github.ref_name }}
-          releaseName: 'marked2u ${{ github.ref_name }}'
+          tagName: ${{ inputs.version }}
+          releaseName: 'marked2u ${{ inputs.version }}'
           releaseBody: |
-            ## marked2u ${{ github.ref_name }}
+            ## marked2u ${{ inputs.version }}
 
             輕量級桌面 Markdown 預覽器，基於 Tauri 打造。
 
@@ -93,7 +120,58 @@ jobs:
 
             ---
             > 本專案 100% 由 [Claude Code](https://claude.ai/code) 開發。
-          releaseDraft: false
-          prerelease: false
+          releaseDraft: true
+          prerelease: ${{ inputs.prerelease }}
           includeUpdaterJson: false
           args: --bundles ${{ matrix.targets }}
+
+      - name: Upload artifacts for VirusTotal scan
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifacts-${{ matrix.platform }}
+          path: ${{ steps.tauri.outputs.artifactPaths }}
+          retention-days: 1
+
+  virustotal:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ always() && !contains(needs.build.result, 'failure') }}
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: List artifacts to scan
+        id: list
+        run: |
+          FILES=$(find artifacts -type f \( -name "*.deb" -o -name "*.rpm" -o -name "*.exe" -o -name "*.msi" \) | tr '\n' ',')
+          echo "files=$FILES" >> $GITHUB_OUTPUT
+          echo "Found files: $FILES"
+
+      - name: Scan with VirusTotal
+        uses: crazy-max/ghaction-virustotal@v4
+        id: vt
+        with:
+          vt_api_key: ${{ secrets.VIRUSTOTAL_API_KEY }}
+          files: ${{ steps.list.outputs.files }}
+          update_release_body: false
+
+      - name: Check scan results
+        run: |
+          echo "VirusTotal scan complete."
+          echo "Results: ${{ steps.vt.outputs.analysis }}"
+
+  publish:
+    needs: [build, virustotal]
+    runs-on: ubuntu-latest
+    if: ${{ success() }}
+
+    steps:
+      - name: Publish Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release edit ${{ inputs.version }} --draft=false --repo ${{ github.repository }}

@@ -3,38 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>marked2u — 跨平台 Markdown 預覽器</title>
-  <meta name="description" content="輕量、開源、跨平台的 Markdown 預覽器。Obsidian 風格渲染，支援 Mermaid、語法高亮、10 種主題與一鍵匯出。" />
+  <title>marked2u — Cross-Platform Markdown Previewer</title>
+  <meta name="description" content="Lightweight, open-source, cross-platform Markdown previewer with Obsidian-style rendering." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0d0d14;
-      --bg2: #13131e;
-      --bg3: #1a1a2e;
-      --border: #2a2a45;
-      --text: #e8e8f0;
-      --muted: #8888aa;
-      --accent: #7c6cf7;
-      --accent2: #a78bfa;
-      --green: #34d399;
+      --bg: #0d0d14; --bg2: #13131e; --bg3: #1a1a2e;
+      --border: #2a2a45; --text: #e8e8f0; --muted: #8888aa;
+      --accent: #7c6cf7; --accent2: #a78bfa;
       --red: #f87171;
-      --yellow: #fbbf24;
       --nav-bg: rgba(13,13,20,0.85);
       --shadow: rgba(0,0,0,0.6);
       --hero-glow: rgba(124,108,247,0.15);
     }
-
     @media (prefers-color-scheme: light) {
       :root {
-        --bg: #f8f8fc;
-        --bg2: #f0f0f8;
-        --bg3: #e8e8f4;
-        --border: #d0d0e8;
-        --text: #1a1a2e;
-        --muted: #6666aa;
-        --accent: #6c5cf0;
-        --accent2: #7c6cf7;
+        --bg: #f8f8fc; --bg2: #f0f0f8; --bg3: #e8e8f4;
+        --border: #d0d0e8; --text: #1a1a2e; --muted: #6666aa;
+        --accent: #6c5cf0; --accent2: #7c6cf7;
         --nav-bg: rgba(248,248,252,0.9);
         --shadow: rgba(0,0,0,0.15);
         --hero-glow: rgba(124,108,247,0.08);
@@ -42,364 +29,92 @@
     }
 
     html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif; font-size: 16px; line-height: 1.7; overflow-x: hidden; }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-
-    /* ── Nav ── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 48px;
-      background: var(--nav-bg);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav-logo { font-size: 1.2rem; font-weight: 700; color: var(--accent2); letter-spacing: -0.02em; }
-    .nav-links { display: flex; gap: 32px; }
+    /* Nav */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 16px 48px; background: var(--nav-bg); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); gap: 16px; }
+    .nav-logo { font-size: 1.2rem; font-weight: 700; color: var(--accent2); letter-spacing: -0.02em; flex-shrink: 0; }
+    .nav-links { display: flex; gap: 28px; }
     .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
     .nav-links a:hover { color: var(--text); }
-    .nav-cta {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.1s;
-    }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .lang-switcher { display: flex; gap: 4px; }
+    .lang-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; cursor: pointer; transition: all 0.2s; }
+    .lang-btn:hover { border-color: var(--accent); color: var(--text); }
+    .lang-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .nav-cta { background: var(--accent); color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.2s, transform 0.1s; white-space: nowrap; }
     .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
 
-    /* ── Hero ── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      width: 800px; height: 800px;
-      background: radial-gradient(circle, var(--hero-glow) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(124,108,247,0.15);
-      border: 1px solid rgba(124,108,247,0.4);
-      color: var(--accent2);
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 5px 14px;
-      border-radius: 999px;
-      margin-bottom: 28px;
-      letter-spacing: 0.05em;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.8rem, 7vw, 5.5rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.1;
-      margin-bottom: 12px;
-      background: linear-gradient(135deg, #fff 30%, var(--accent2) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-tagline {
-      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-      color: var(--muted);
-      max-width: 560px;
-      margin: 0 auto 16px;
-    }
-
-    .hero-sub {
-      font-size: 0.95rem;
-      color: var(--accent2);
-      opacity: 0.8;
-      margin-bottom: 48px;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 72px;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      padding: 14px 32px;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 700;
-      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-      box-shadow: 0 4px 24px rgba(124,108,247,0.35);
-    }
+    /* Hero */
+    .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, var(--hero-glow) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(124,108,247,0.15); border: 1px solid rgba(124,108,247,0.4); color: var(--accent2); font-size: 0.8rem; font-weight: 600; padding: 5px 14px; border-radius: 999px; margin-bottom: 28px; letter-spacing: 0.05em; }
+    .hero h1 { font-size: clamp(2.8rem, 7vw, 5.5rem); font-weight: 800; letter-spacing: -0.04em; line-height: 1.1; margin-bottom: 12px; background: linear-gradient(135deg, var(--text) 30%, var(--accent2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-tagline { font-size: clamp(1.1rem, 2.5vw, 1.4rem); color: var(--muted); max-width: 560px; margin: 0 auto 16px; }
+    .hero-sub { font-size: 0.95rem; color: var(--accent2); opacity: 0.8; margin-bottom: 48px; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; margin-bottom: 72px; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-size: 1rem; font-weight: 700; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 24px rgba(124,108,247,0.35); }
     .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,108,247,0.5); }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
-      color: var(--text);
-      text-decoration: none;
-      padding: 14px 28px;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: background 0.2s, transform 0.15s;
-    }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text); text-decoration: none; padding: 14px 28px; border-radius: 10px; font-size: 1rem; font-weight: 600; transition: background 0.2s, transform 0.15s; }
     .btn-secondary:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
-
-    .hero-screenshot {
-      width: 100%;
-      max-width: 900px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      box-shadow: 0 32px 80px var(--shadow), 0 0 0 1px rgba(124,108,247,0.2);
-      overflow: hidden;
-    }
-
-    .screenshot-bar {
-      background: #1e1e2e;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 1px solid var(--border);
-    }
+    .hero-screenshot { width: 100%; max-width: 900px; border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 32px 80px var(--shadow), 0 0 0 1px rgba(124,108,247,0.2); overflow: hidden; }
+    .screenshot-bar { background: #1e1e2e; padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid var(--border); }
     .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .dot-r { background: #ff5f57; }
-    .dot-y { background: #febc2e; }
-    .dot-g { background: #28c840; }
+    .dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
     .screenshot-bar span { color: var(--muted); font-size: 12px; margin-left: 12px; }
-
     .hero-screenshot img { width: 100%; display: block; }
 
-    /* ── Pain ── */
-    .pain {
-      padding: 100px 24px;
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
+    /* Sections */
+    .section-label { text-align: center; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent2); margin-bottom: 16px; }
+    .section-title { text-align: center; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; margin-bottom: 16px; }
+    .section-sub { text-align: center; color: var(--muted); max-width: 560px; margin: 0 auto 64px; font-size: 1.05rem; }
 
-    .section-label {
-      text-align: center;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: 16px;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-      margin-bottom: 16px;
-    }
-
-    .section-sub {
-      text-align: center;
-      color: var(--muted);
-      max-width: 560px;
-      margin: 0 auto 64px;
-      font-size: 1.05rem;
-    }
-
-    .pain-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .pain-card {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px;
-      position: relative;
-    }
-
+    /* Pain */
+    .pain { padding: 100px 24px; background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .pain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+    .pain-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 14px; padding: 28px; }
     .pain-icon { font-size: 2rem; margin-bottom: 16px; }
-    .pain-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+    .pain-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 10px; }
     .pain-card p { color: var(--muted); font-size: 0.92rem; line-height: 1.65; }
-    .pain-card .tag-bad {
-      display: inline-block;
-      background: rgba(248,113,113,0.12);
-      color: var(--red);
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 2px 10px;
-      border-radius: 999px;
-      margin-bottom: 12px;
-    }
-
-    .pain-solution {
-      max-width: 760px;
-      margin: 48px auto 0;
-      background: linear-gradient(135deg, rgba(124,108,247,0.12), rgba(52,211,153,0.08));
-      border: 1px solid rgba(124,108,247,0.3);
-      border-radius: 16px;
-      padding: 32px 36px;
-      text-align: center;
-    }
+    .tag-bad { display: inline-block; background: rgba(248,113,113,0.12); color: var(--red); font-size: 0.75rem; font-weight: 700; padding: 2px 10px; border-radius: 999px; margin-bottom: 12px; }
+    .pain-solution { max-width: 760px; margin: 48px auto 0; background: linear-gradient(135deg, rgba(124,108,247,0.12), rgba(52,211,153,0.08)); border: 1px solid rgba(124,108,247,0.3); border-radius: 16px; padding: 32px 36px; text-align: center; }
     .pain-solution h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 12px; }
     .pain-solution p { color: var(--muted); font-size: 0.98rem; }
     .pain-solution strong { color: var(--accent2); }
 
-    /* ── Features ── */
-    .features { padding: 100px 24px; max-width: 1100px; margin: 0 auto; }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-      margin-bottom: 72px;
-    }
-
-    .feat-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px;
-      transition: border-color 0.2s, transform 0.2s;
-    }
+    /* Features */
+    .features { padding: 100px 24px 0; max-width: 1100px; margin: 0 auto; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 72px; }
+    .feat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 28px; transition: border-color 0.2s, transform 0.2s; }
     .feat-card:hover { border-color: var(--accent); transform: translateY(-3px); }
     .feat-icon { font-size: 1.8rem; margin-bottom: 14px; }
     .feat-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
     .feat-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
 
-    /* ── Screenshots gallery ── */
+    /* Gallery */
     .gallery { padding: 0 24px 100px; max-width: 1100px; margin: 0 auto; }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
-      gap: 24px;
-    }
-
-    .gallery-item {
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      background: var(--bg2);
-    }
-
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(460px, 1fr)); gap: 24px; }
+    .gallery-item { border-radius: 12px; overflow: hidden; border: 1px solid var(--border); background: var(--bg2); }
     .gallery-item img { width: 100%; display: block; }
-    .gallery-caption {
-      padding: 14px 18px;
-      font-size: 0.85rem;
-      color: var(--muted);
-      border-top: 1px solid var(--border);
-    }
+    .gallery-caption { padding: 14px 18px; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); }
     .gallery-caption strong { color: var(--text); }
 
-    /* ── Download ── */
-    .download {
-      padding: 100px 24px;
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-
-    .download-platforms {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 48px auto 0;
-      max-width: 720px;
-    }
-
-    .platform-card {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px 32px;
-      text-align: left;
-      min-width: 200px;
-      transition: border-color 0.2s, transform 0.2s;
-    }
+    /* Download */
+    .download { padding: 100px 24px; background: var(--bg2); border-top: 1px solid var(--border); text-align: center; }
+    .download-platforms { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin: 48px auto 0; max-width: 720px; }
+    .platform-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 14px; padding: 28px 32px; text-align: left; min-width: 200px; transition: border-color 0.2s, transform 0.2s; }
     .platform-card:hover { border-color: var(--accent); transform: translateY(-3px); }
     .platform-icon { font-size: 2.2rem; margin-bottom: 12px; }
     .platform-name { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
     .platform-exts { font-size: 0.82rem; color: var(--muted); margin-bottom: 18px; }
-    .platform-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      padding: 9px 18px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      transition: background 0.2s;
-    }
+    .platform-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: #fff; text-decoration: none; padding: 9px 18px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; transition: background 0.2s; }
     .platform-btn:hover { background: var(--accent2); }
-
-    .download-note {
-      margin-top: 36px;
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
+    .download-note { margin-top: 36px; font-size: 0.85rem; color: var(--muted); }
     .download-note a { color: var(--accent2); text-decoration: none; }
     .download-note a:hover { text-decoration: underline; }
 
-    /* ── Footer ── */
-    footer {
-      padding: 40px 48px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
+    /* Footer */
+    footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
     footer .logo { font-weight: 700; color: var(--accent2); }
     footer p { font-size: 0.82rem; color: var(--muted); }
     footer a { color: var(--accent2); text-decoration: none; }
@@ -415,203 +130,337 @@
 </head>
 <body>
 
-<!-- Nav -->
 <nav>
   <span class="nav-logo">marked2u</span>
   <div class="nav-links">
-    <a href="#pain">為什麼選擇</a>
-    <a href="#features">功能</a>
-    <a href="#screenshots">截圖</a>
-    <a href="#download">下載</a>
+    <a href="#pain" data-i18n="nav.why"></a>
+    <a href="#features" data-i18n="nav.features"></a>
+    <a href="#screenshots" data-i18n="nav.screenshots"></a>
+    <a href="#download" data-i18n="nav.download"></a>
   </div>
-  <a class="nav-cta" href="#download">免費下載</a>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn" data-lang="zh-TW">繁中</button>
+      <button class="lang-btn" data-lang="zh-CN">简中</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ja">日本語</button>
+    </div>
+    <a class="nav-cta" href="#download" data-i18n="nav.cta"></a>
+  </div>
 </nav>
 
-<!-- Hero -->
 <section class="hero">
-  <div class="hero-badge">✦ 開源 · 免費 · 跨平台</div>
-  <h1>Markdown 預覽<br/>終於有好選擇</h1>
-  <p class="hero-tagline">輕量、快速、開源的桌面 Markdown 預覽器，預設採用 Obsidian 渲染引擎</p>
-  <p class="hero-sub">支援 Windows · Linux · macOS（等註冊蘋果開發者資金到位）</p>
+  <div class="hero-badge" data-i18n="hero.badge"></div>
+  <h1 data-i18n="hero.h1"></h1>
+  <p class="hero-tagline" data-i18n="hero.tagline"></p>
+  <p class="hero-sub" data-i18n="hero.sub"></p>
   <div class="hero-actions">
-    <a class="btn-primary" href="#download">
-      ⬇ 立即下載
-    </a>
-    <a class="btn-secondary" href="https://github.com/stanwu/marked2u" target="_blank">
-      ★ GitHub
-    </a>
+    <a class="btn-primary" href="#download" data-i18n="hero.download"></a>
+    <a class="btn-secondary" href="https://github.com/stanwu/marked2u" target="_blank">★ GitHub</a>
   </div>
   <div class="hero-screenshot">
     <div class="screenshot-bar">
-      <span class="dot dot-r"></span>
-      <span class="dot dot-y"></span>
-      <span class="dot dot-g"></span>
+      <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
       <span>README.md — marked2u</span>
     </div>
-    <img src="screenshots/preview.png" alt="marked2u 預覽畫面" />
+    <img src="screenshots/preview.png" alt="marked2u preview" />
   </div>
 </section>
 
-<!-- Pain -->
 <section class="pain" id="pain">
-  <div class="section-label">痛點</div>
-  <h2 class="section-title">你一定有過這些困擾</h2>
-  <p class="section-sub">市面上的 Markdown 工具，不是只有 macOS 能用，就是太重、太醜、閉源</p>
-
+  <div class="section-label" data-i18n="pain.label"></div>
+  <h2 class="section-title" data-i18n="pain.title"></h2>
+  <p class="section-sub" data-i18n="pain.sub"></p>
   <div class="pain-grid">
     <div class="pain-card">
       <div class="pain-icon">🪟</div>
-      <span class="tag-bad">Windows 痛點</span>
-      <h3>記事本 render 結果難以入目</h3>
-      <p>Windows 11 內建記事本雖然支援 Markdown，但渲染品質粗糙，字型、間距、程式碼區塊全都差強人意，用來 review 文件根本是折磨。</p>
+      <span class="tag-bad" data-i18n="pain.p1.tag"></span>
+      <h3 data-i18n="pain.p1.title"></h3>
+      <p data-i18n="pain.p1.body"></p>
     </div>
     <div class="pain-card">
       <div class="pain-icon">🍎</div>
-      <span class="tag-bad">macOS 獨占</span>
-      <h3>Marked2 太好用，卻只有 macOS</h3>
-      <p>Marked2 是 macOS 上公認最優秀的 Markdown 預覽器，主題豐富、匯出強大。但換到 Windows 或 Linux 就完全失去這個體驗。</p>
+      <span class="tag-bad" data-i18n="pain.p2.tag"></span>
+      <h3 data-i18n="pain.p2.title"></h3>
+      <p data-i18n="pain.p2.body"></p>
     </div>
     <div class="pain-card">
       <div class="pain-icon">🐘</div>
-      <span class="tag-bad">太重</span>
-      <h3>其他方案太厚重</h3>
-      <p>VS Code、Typora、Obsidian 功能強大但啟動慢、記憶體占用高。你只是想快速預覽一個 .md 檔，不需要一個完整的編輯器生態系。</p>
+      <span class="tag-bad" data-i18n="pain.p3.tag"></span>
+      <h3 data-i18n="pain.p3.title"></h3>
+      <p data-i18n="pain.p3.body"></p>
     </div>
     <div class="pain-card">
       <div class="pain-icon">🔒</div>
-      <span class="tag-bad">閉源</span>
-      <h3>閉源軟體，功能有限又要錢</h3>
-      <p>許多跨平台 Markdown 工具是閉源的，功能受限、更新慢，甚至要訂閱付費。出了問題無法自己修，只能等官方回應。</p>
+      <span class="tag-bad" data-i18n="pain.p4.tag"></span>
+      <h3 data-i18n="pain.p4.title"></h3>
+      <p data-i18n="pain.p4.body"></p>
     </div>
     <div class="pain-card">
       <div class="pain-icon">📄</div>
-      <span class="tag-bad">體驗落差</span>
-      <h3>看 .md 不應該比看 .pdf 難</h3>
-      <p>雙擊 PDF，畫面清晰乾淨，字型、排版、圖表一目瞭然。雙擊 .md，卻只看到一堆 <code>#</code>、<code>**</code>、<code>```</code> 符號。同樣是文件，待遇卻天差地別。</p>
+      <span class="tag-bad" data-i18n="pain.p5.tag"></span>
+      <h3 data-i18n="pain.p5.title"></h3>
+      <p data-i18n="pain.p5.body"></p>
     </div>
   </div>
-
   <div class="pain-solution">
-    <h3>所以我讓 Claude Code 直接做了一個 ✦</h3>
-    <p>
-      <strong>marked2u</strong> — 基於 Tauri 打造的跨平台 Markdown 預覽器，<br />
-      預設採用與 <strong>Obsidian 相同的渲染引擎</strong>，輕量開源，Windows / Linux 都能用，<br />
-      終於不用在 macOS 和其他平台之間做出妥協。
-    </p>
+    <h3 data-i18n="pain.sol.title"></h3>
+    <p data-i18n="pain.sol.body"></p>
   </div>
 </section>
 
-<!-- Features -->
 <section id="features">
-  <div class="features" style="padding-bottom: 0">
-    <div class="section-label">功能</div>
-    <h2 class="section-title">你需要的，全都有</h2>
-    <p class="section-sub">不多餘、不臃腫，專注在 Markdown 預覽這件事上做到最好</p>
-
+  <div class="features">
+    <div class="section-label" data-i18n="feat.label"></div>
+    <h2 class="section-title" data-i18n="feat.title"></h2>
+    <p class="section-sub" data-i18n="feat.sub"></p>
     <div class="features-grid">
-      <div class="feat-card">
-        <div class="feat-icon">⚡</div>
-        <h3>即開即用，秒速預覽</h3>
-        <p>拖曳 .md 檔案到視窗，或命令列 <code>marked2u file.md</code>，立即渲染，儲存後自動更新。</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🎨</div>
-        <h3>10 種 CSS 主題</h3>
-        <p>內建 Obsidian、GitHub、Swiss、Ink、Multi-Column、Grump 等主題，支援 Custom CSS 自訂，⌘1–⌘9 快速切換。</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🔍</div>
-        <h3>全文搜尋</h3>
-        <p>Ctrl+F / Cmd+F 開啟 Find Bar，螢光筆即時標示，支援 Whole words、Case sensitive、Regex。</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">📊</div>
-        <h3>Mermaid 圖表</h3>
-        <p>直接在 Markdown 中渲染流程圖、時序圖、甘特圖等，export 時 SVG 完整保留。</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">📤</div>
-        <h3>一鍵匯出</h3>
-        <p>支援 HTML（含 CDN）、PDF（A4 分頁）、DOCX、MD、OPML，點圖示即可匯出。</p>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🔓</div>
-        <h3>完全開源，非商業免費使用</h3>
-        <p>採用 PolyForm Noncommercial License，個人與非商業用途完全免費，原始碼在 GitHub 公開，歡迎 PR。Release 由 CI 自動 build 並掃毒驗證後發布。</p>
-      </div>
+      <div class="feat-card"><div class="feat-icon">⚡</div><h3 data-i18n="feat.f1.title"></h3><p data-i18n="feat.f1.body"></p></div>
+      <div class="feat-card"><div class="feat-icon">🎨</div><h3 data-i18n="feat.f2.title"></h3><p data-i18n="feat.f2.body"></p></div>
+      <div class="feat-card"><div class="feat-icon">🔍</div><h3 data-i18n="feat.f3.title"></h3><p data-i18n="feat.f3.body"></p></div>
+      <div class="feat-card"><div class="feat-icon">📊</div><h3 data-i18n="feat.f4.title"></h3><p data-i18n="feat.f4.body"></p></div>
+      <div class="feat-card"><div class="feat-icon">📤</div><h3 data-i18n="feat.f5.title"></h3><p data-i18n="feat.f5.body"></p></div>
+      <div class="feat-card"><div class="feat-icon">🔓</div><h3 data-i18n="feat.f6.title"></h3><p data-i18n="feat.f6.body"></p></div>
     </div>
   </div>
 </section>
 
-<!-- Screenshots -->
 <section id="screenshots">
   <div class="gallery">
-    <div class="section-label" style="text-align:center">截圖</div>
-    <h2 class="section-title">看起來就是這樣</h2>
-    <p class="section-sub" style="margin-bottom:48px">乾淨、清晰，跟你在 Obsidian 看到的一模一樣</p>
-
+    <div class="section-label" style="text-align:center" data-i18n="ss.label"></div>
+    <h2 class="section-title" data-i18n="ss.title"></h2>
+    <p class="section-sub" style="margin-bottom:48px" data-i18n="ss.sub"></p>
     <div class="gallery-grid">
       <div class="gallery-item">
         <img src="screenshots/find.png" alt="Find Bar" />
-        <div class="gallery-caption"><strong>Find Bar</strong> — Ctrl+F 全文搜尋，螢光筆即時標示，支援 Regex</div>
+        <div class="gallery-caption" data-i18n="ss.cap1"></div>
       </div>
       <div class="gallery-item">
-        <img src="screenshots/themes.png" alt="CSS Theme 切換" />
-        <div class="gallery-caption"><strong>10 種主題</strong> — 從 Obsidian 到 Grump，快捷鍵一鍵切換</div>
+        <img src="screenshots/themes.png" alt="Themes" />
+        <div class="gallery-caption" data-i18n="ss.cap2"></div>
       </div>
       <div class="gallery-item" style="grid-column: 1 / -1">
-        <img src="screenshots/export.png" alt="Export 匯出" />
-        <div class="gallery-caption"><strong>匯出面板</strong> — HTML、PDF、DOCX、MD、OPML，右下角分享鍵觸發</div>
+        <img src="screenshots/export.png" alt="Export" />
+        <div class="gallery-caption" data-i18n="ss.cap3"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Download -->
 <section class="download" id="download">
-  <div class="section-label">下載</div>
-  <h2 class="section-title">選擇你的平台</h2>
-  <p class="section-sub">免費下載，開源，無需帳號</p>
-
+  <div class="section-label" data-i18n="dl.label"></div>
+  <h2 class="section-title" data-i18n="dl.title"></h2>
+  <p class="section-sub" data-i18n="dl.sub"></p>
   <div class="download-platforms">
     <div class="platform-card">
       <div class="platform-icon">🐧</div>
       <div class="platform-name">Linux</div>
-      <div class="platform-exts">.deb（Debian / Ubuntu）<br>.rpm（Fedora / RHEL）</div>
-      <a class="platform-btn" href="https://github.com/stanwu/marked2u/releases/latest" target="_blank">
-        ⬇ 下載
-      </a>
+      <div class="platform-exts">.deb (Debian / Ubuntu)<br>.rpm (Fedora / RHEL)</div>
+      <a class="platform-btn" href="https://github.com/stanwu/marked2u/releases/latest" target="_blank" data-i18n="dl.btn"></a>
     </div>
     <div class="platform-card">
       <div class="platform-icon">🪟</div>
       <div class="platform-name">Windows</div>
-      <div class="platform-exts">.exe（NSIS 安裝程式）<br>.msi（MSI 安裝程式）</div>
-      <a class="platform-btn" href="https://github.com/stanwu/marked2u/releases/latest" target="_blank">
-        ⬇ 下載
-      </a>
+      <div class="platform-exts">.exe (NSIS)<br>.msi (MSI)</div>
+      <a class="platform-btn" href="https://github.com/stanwu/marked2u/releases/latest" target="_blank" data-i18n="dl.btn"></a>
     </div>
     <div class="platform-card" style="opacity:0.55">
       <div class="platform-icon">🍎</div>
       <div class="platform-name">macOS</div>
-      <div class="platform-exts">需 Apple 開發者憑證<br>（$99/年）</div>
-      <span class="platform-btn" style="background:#444;cursor:not-allowed">等註冊蘋果開發者資金到位</span>
+      <div class="platform-exts" data-i18n="dl.mac.note"></div>
+      <span class="platform-btn" style="background:#444;cursor:not-allowed" data-i18n="dl.mac.btn"></span>
     </div>
   </div>
-
-  <p class="download-note">
-    所有 Release 由 GitHub Actions 自動編譯並完成 ClamAV / Windows Defender 掃毒驗證。<br />
-    查看 <a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> ·
-    <a href="https://github.com/stanwu/marked2u" target="_blank">原始碼</a> ·
-    <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License</a>
-  </p>
+  <p class="download-note" data-i18n="dl.note"></p>
 </section>
 
-<!-- Footer -->
 <footer>
   <span class="logo">marked2u</span>
-  <p>本專案 100% 由 <a href="https://claude.ai/code" target="_blank">Claude Code</a> 開發 · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License 1.0.0</a></p>
+  <p data-i18n="footer.credit"></p>
   <a href="https://github.com/stanwu/marked2u" target="_blank">GitHub →</a>
 </footer>
 
+<script>
+const I18N = {
+  'zh-TW': {
+    'nav.why': '為什麼選擇', 'nav.features': '功能', 'nav.screenshots': '截圖', 'nav.download': '下載', 'nav.cta': '免費下載',
+    'hero.badge': '✦ 開源 · 免費 · 跨平台',
+    'hero.h1': 'Markdown 預覽<br/>終於有好選擇',
+    'hero.tagline': '輕量、快速、開源的桌面 Markdown 預覽器，預設採用 Obsidian 渲染引擎',
+    'hero.sub': '支援 Windows · Linux · macOS（等註冊蘋果開發者資金到位）',
+    'hero.download': '⬇ 立即下載',
+    'pain.label': '痛點', 'pain.title': '你一定有過這些困擾',
+    'pain.sub': '市面上的 Markdown 工具，不是只有 macOS 能用，就是太重、太醜、閉源',
+    'pain.p1.tag': 'Windows 痛點', 'pain.p1.title': '記事本 render 結果難以入目',
+    'pain.p1.body': 'Windows 11 內建記事本雖然支援 Markdown，但渲染品質粗糙，字型、間距、程式碼區塊全都差強人意，用來 review 文件根本是折磨。',
+    'pain.p2.tag': 'macOS 獨占', 'pain.p2.title': 'Marked2 太好用，卻只有 macOS',
+    'pain.p2.body': 'Marked2 是 macOS 上公認最優秀的 Markdown 預覽器，主題豐富、匯出強大。但換到 Windows 或 Linux 就完全失去這個體驗。',
+    'pain.p3.tag': '太重', 'pain.p3.title': '其他方案太厚重',
+    'pain.p3.body': 'VS Code、Typora、Obsidian 功能強大但啟動慢、記憶體占用高。你只是想快速預覽一個 .md 檔，不需要一個完整的編輯器生態系。',
+    'pain.p4.tag': '閉源', 'pain.p4.title': '閉源軟體，功能有限又要錢',
+    'pain.p4.body': '許多跨平台 Markdown 工具是閉源的，功能受限、更新慢，甚至要訂閱付費。出了問題無法自己修，只能等官方回應。',
+    'pain.p5.tag': '體驗落差', 'pain.p5.title': '看 .md 不應該比看 .pdf 難',
+    'pain.p5.body': '雙擊 PDF，畫面清晰乾淨，字型、排版、圖表一目瞭然。雙擊 .md，卻只看到一堆 # 、** 、``` 符號。同樣是文件，待遇卻天差地別。',
+    'pain.sol.title': '所以我讓 Claude Code 直接做了一個 ✦',
+    'pain.sol.body': '<strong>marked2u</strong> — 基於 Tauri 打造的跨平台 Markdown 預覽器，<br/>預設採用與 <strong>Obsidian 相同的渲染引擎</strong>，輕量開源，Windows / Linux 都能用，<br/>終於不用在 macOS 和其他平台之間做出妥協。',
+    'feat.label': '功能', 'feat.title': '你需要的，全都有', 'feat.sub': '不多餘、不臃腫，專注在 Markdown 預覽這件事上做到最好',
+    'feat.f1.title': '即開即用，秒速預覽', 'feat.f1.body': '拖曳 .md 檔案到視窗，或命令列 <code>marked2u file.md</code>，立即渲染，儲存後自動更新。',
+    'feat.f2.title': '10 種 CSS 主題', 'feat.f2.body': '內建 Obsidian、GitHub、Swiss、Ink、Multi-Column、Grump 等主題，支援 Custom CSS 自訂，⌘1–⌘9 快速切換。',
+    'feat.f3.title': '全文搜尋', 'feat.f3.body': 'Ctrl+F / Cmd+F 開啟 Find Bar，螢光筆即時標示，支援 Whole words、Case sensitive、Regex。',
+    'feat.f4.title': 'Mermaid 圖表', 'feat.f4.body': '直接在 Markdown 中渲染流程圖、時序圖、甘特圖等，export 時 SVG 完整保留。',
+    'feat.f5.title': '一鍵匯出', 'feat.f5.body': '支援 HTML（含 CDN）、PDF（A4 分頁）、DOCX、MD、OPML，點圖示即可匯出。',
+    'feat.f6.title': '完全開源，非商業免費', 'feat.f6.body': '採用 PolyForm Noncommercial License，個人與非商業用途完全免費，原始碼在 GitHub 公開，歡迎 PR。',
+    'ss.label': '截圖', 'ss.title': '看起來就是這樣', 'ss.sub': '乾淨、清晰，跟你在 Obsidian 看到的一模一樣',
+    'ss.cap1': '<strong>Find Bar</strong> — Ctrl+F 全文搜尋，螢光筆即時標示，支援 Regex',
+    'ss.cap2': '<strong>10 種主題</strong> — 從 Obsidian 到 Grump，快捷鍵一鍵切換',
+    'ss.cap3': '<strong>匯出面板</strong> — HTML、PDF、DOCX、MD、OPML，右下角分享鍵觸發',
+    'dl.label': '下載', 'dl.title': '選擇你的平台', 'dl.sub': '免費下載，開源，無需帳號', 'dl.btn': '⬇ 下載',
+    'dl.mac.note': '需 Apple 開發者憑證<br>（$99/年）', 'dl.mac.btn': '等註冊蘋果開發者資金到位',
+    'dl.note': '所有 Release 由 GitHub Actions 自動編譯並完成 ClamAV / Windows Defender 掃毒驗證。<br/>查看 <a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">原始碼</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License</a>',
+    'footer.credit': '本專案 100% 由 <a href="https://claude.ai/code" target="_blank">Claude Code</a> 開發 · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License 1.0.0</a>',
+  },
+  'zh-CN': {
+    'nav.why': '为什么选择', 'nav.features': '功能', 'nav.screenshots': '截图', 'nav.download': '下载', 'nav.cta': '免费下载',
+    'hero.badge': '✦ 开源 · 免费 · 跨平台',
+    'hero.h1': 'Markdown 预览<br/>终于有好选择',
+    'hero.tagline': '轻量、快速、开源的桌面 Markdown 预览器，默认采用 Obsidian 渲染引擎',
+    'hero.sub': '支持 Windows · Linux · macOS（待注册苹果开发者资金到位）',
+    'hero.download': '⬇ 立即下载',
+    'pain.label': '痛点', 'pain.title': '你一定有过这些困扰',
+    'pain.sub': '市面上的 Markdown 工具，要么只有 macOS 能用，要么太重、太丑、闭源',
+    'pain.p1.tag': 'Windows 痛点', 'pain.p1.title': '记事本渲染结果惨不忍睹',
+    'pain.p1.body': 'Windows 11 内置记事本虽然支持 Markdown，但渲染质量粗糙，字体、间距、代码块都差强人意，用来 review 文档简直是折磨。',
+    'pain.p2.tag': 'macOS 独占', 'pain.p2.title': 'Marked2 太好用，却只有 macOS',
+    'pain.p2.body': 'Marked2 是 macOS 上公认最优秀的 Markdown 预览器，主题丰富、导出强大。但换到 Windows 或 Linux 就完全失去这个体验。',
+    'pain.p3.tag': '太重', 'pain.p3.title': '其他方案太臃肿',
+    'pain.p3.body': 'VS Code、Typora、Obsidian 功能强大但启动慢、内存占用高。你只是想快速预览一个 .md 文件，不需要一个完整的编辑器生态。',
+    'pain.p4.tag': '闭源', 'pain.p4.title': '闭源软件，功能有限还要钱',
+    'pain.p4.body': '许多跨平台 Markdown 工具是闭源的，功能受限、更新慢，甚至要订阅付费。出了问题无法自己修，只能等官方响应。',
+    'pain.p5.tag': '体验落差', 'pain.p5.title': '看 .md 不应该比看 .pdf 难',
+    'pain.p5.body': '双击 PDF，画面清晰干净，字体、排版、图表一目了然。双击 .md，却只看到一堆 #、**、``` 符号。同样是文档，待遇却天差地别。',
+    'pain.sol.title': '所以我让 Claude Code 直接做了一个 ✦',
+    'pain.sol.body': '<strong>marked2u</strong> — 基于 Tauri 打造的跨平台 Markdown 预览器，<br/>默认采用与 <strong>Obsidian 相同的渲染引擎</strong>，轻量开源，Windows / Linux 都能用，<br/>终于不用在 macOS 和其他平台之间做出妥协。',
+    'feat.label': '功能', 'feat.title': '你需要的，全都有', 'feat.sub': '不多余、不臃肿，专注在 Markdown 预览这件事上做到最好',
+    'feat.f1.title': '即开即用，秒速预览', 'feat.f1.body': '拖拽 .md 文件到窗口，或命令行 <code>marked2u file.md</code>，立即渲染，保存后自动更新。',
+    'feat.f2.title': '10 种 CSS 主题', 'feat.f2.body': '内置 Obsidian、GitHub、Swiss、Ink、Multi-Column、Grump 等主题，支持 Custom CSS 自定义，⌘1–⌘9 快速切换。',
+    'feat.f3.title': '全文搜索', 'feat.f3.body': 'Ctrl+F / Cmd+F 打开 Find Bar，荧光笔实时标注，支持 Whole words、Case sensitive、Regex。',
+    'feat.f4.title': 'Mermaid 图表', 'feat.f4.body': '直接在 Markdown 中渲染流程图、时序图、甘特图等，export 时 SVG 完整保留。',
+    'feat.f5.title': '一键导出', 'feat.f5.body': '支持 HTML（含 CDN）、PDF（A4 分页）、DOCX、MD、OPML，点图标即可导出。',
+    'feat.f6.title': '完全开源，非商业免费', 'feat.f6.body': '采用 PolyForm Noncommercial License，个人与非商业用途完全免费，源码在 GitHub 公开，欢迎 PR。',
+    'ss.label': '截图', 'ss.title': '看起来就是这样', 'ss.sub': '干净、清晰，跟你在 Obsidian 看到的一模一样',
+    'ss.cap1': '<strong>Find Bar</strong> — Ctrl+F 全文搜索，荧光笔实时标注，支持 Regex',
+    'ss.cap2': '<strong>10 种主题</strong> — 从 Obsidian 到 Grump，快捷键一键切换',
+    'ss.cap3': '<strong>导出面板</strong> — HTML、PDF、DOCX、MD、OPML，右下角分享键触发',
+    'dl.label': '下载', 'dl.title': '选择你的平台', 'dl.sub': '免费下载，开源，无需账号', 'dl.btn': '⬇ 下载',
+    'dl.mac.note': '需 Apple 开发者证书<br>（$99/年）', 'dl.mac.btn': '等注册苹果开发者资金到位',
+    'dl.note': '所有 Release 由 GitHub Actions 自动编译并完成 ClamAV / Windows Defender 杀毒验证。<br/>查看 <a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">源码</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License</a>',
+    'footer.credit': '本项目 100% 由 <a href="https://claude.ai/code" target="_blank">Claude Code</a> 开发 · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License 1.0.0</a>',
+  },
+  'en': {
+    'nav.why': 'Why', 'nav.features': 'Features', 'nav.screenshots': 'Screenshots', 'nav.download': 'Download', 'nav.cta': 'Free Download',
+    'hero.badge': '✦ Open Source · Free · Cross-Platform',
+    'hero.h1': 'Markdown Preview<br/>Done Right',
+    'hero.tagline': 'A lightweight, fast, open-source desktop Markdown previewer with Obsidian-style rendering',
+    'hero.sub': 'Windows · Linux · macOS (pending Apple Developer enrollment)',
+    'hero.download': '⬇ Download Now',
+    'pain.label': 'Pain Points', 'pain.title': "Sound familiar?",
+    'pain.sub': 'Every Markdown tool out there is either macOS-only, bloated, ugly, or closed-source',
+    'pain.p1.tag': 'Windows', 'pain.p1.title': "Windows Notepad renders Markdown terribly",
+    'pain.p1.body': "Windows 11 Notepad technically supports Markdown, but the rendering is rough — bad fonts, poor spacing, ugly code blocks. Reviewing docs in it feels like punishment.",
+    'pain.p2.tag': 'macOS Only', 'pain.p2.title': 'Marked2 is great — but macOS only',
+    'pain.p2.body': 'Marked2 is the gold standard for Markdown preview on macOS: rich themes, powerful export. But switch to Windows or Linux and that experience disappears entirely.',
+    'pain.p3.tag': 'Too Heavy', 'pain.p3.title': 'Other tools are overkill',
+    'pain.p3.body': "VS Code, Typora, Obsidian are powerful but slow to start and memory-hungry. You just want to quickly preview a .md file — not launch an entire editor ecosystem.",
+    'pain.p4.tag': 'Closed Source', 'pain.p4.title': 'Closed-source, limited, and expensive',
+    'pain.p4.body': "Many cross-platform Markdown tools are closed-source — limited features, slow updates, subscription fees. When something breaks, you can only wait.",
+    'pain.p5.tag': 'UX Gap', 'pain.p5.title': 'Opening .md should be as easy as opening .pdf',
+    'pain.p5.body': "Double-click a PDF: clean, beautiful, readable. Double-click a .md file: a wall of #, **, and ``` symbols. Same document format, completely different experience.",
+    'pain.sol.title': 'So I had Claude Code build one ✦',
+    'pain.sol.body': '<strong>marked2u</strong> — a cross-platform Markdown previewer built with Tauri,<br/>using the <strong>same rendering engine as Obsidian</strong> by default. Lightweight, open-source, runs on Windows and Linux.<br/>No more compromises.',
+    'feat.label': 'Features', 'feat.title': 'Everything you need', 'feat.sub': 'No bloat. Just great Markdown preview.',
+    'feat.f1.title': 'Instant Preview', 'feat.f1.body': 'Drag a .md file to the window, or run <code>marked2u file.md</code>. Renders instantly, auto-updates on save.',
+    'feat.f2.title': '10 CSS Themes', 'feat.f2.body': 'Built-in Obsidian, GitHub, Swiss, Ink, Multi-Column, Grump and more. Custom CSS supported. Switch with ⌘1–⌘9.',
+    'feat.f3.title': 'Full-Text Find', 'feat.f3.body': 'Ctrl+F / Cmd+F opens Find Bar with live highlight. Supports Whole words, Case sensitive, Regex.',
+    'feat.f4.title': 'Mermaid Diagrams', 'feat.f4.body': 'Render flowcharts, sequence diagrams, Gantt charts inline. SVG preserved in exports.',
+    'feat.f5.title': 'One-Click Export', 'feat.f5.body': 'Export to HTML (with CDN), PDF (A4 paginated), DOCX, MD, OPML with one click.',
+    'feat.f6.title': 'Open Source, Free for Personal Use', 'feat.f6.body': 'PolyForm Noncommercial License — free for personal and non-commercial use. Source on GitHub, PRs welcome.',
+    'ss.label': 'Screenshots', 'ss.title': "Here's what it looks like", 'ss.sub': 'Clean, sharp — identical to how Obsidian renders your notes',
+    'ss.cap1': '<strong>Find Bar</strong> — Ctrl+F full-text search with live highlight, Regex support',
+    'ss.cap2': '<strong>10 Themes</strong> — From Obsidian to Grump, switch with keyboard shortcuts',
+    'ss.cap3': '<strong>Export Panel</strong> — HTML, PDF, DOCX, MD, OPML — triggered by the share icon',
+    'dl.label': 'Download', 'dl.title': 'Choose your platform', 'dl.sub': 'Free download. Open source. No account required.', 'dl.btn': '⬇ Download',
+    'dl.mac.note': 'Requires Apple Developer account<br>($99/year)', 'dl.mac.btn': 'Pending funding',
+    'dl.note': 'All releases are built by GitHub Actions and scanned by ClamAV / Windows Defender before publishing.<br/><a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">Source</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License</a>',
+    'footer.credit': '100% built by <a href="https://claude.ai/code" target="_blank">Claude Code</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License 1.0.0</a>',
+  },
+  'ja': {
+    'nav.why': '選ぶ理由', 'nav.features': '機能', 'nav.screenshots': 'スクリーンショット', 'nav.download': 'ダウンロード', 'nav.cta': '無料ダウンロード',
+    'hero.badge': '✦ オープンソース · 無料 · クロスプラットフォーム',
+    'hero.h1': 'Markdown プレビュー<br/>これが正解',
+    'hero.tagline': '軽量・高速・オープンソースのデスクトップ Markdown プレビューアー。Obsidian と同じレンダリングエンジンを標準搭載',
+    'hero.sub': 'Windows · Linux 対応 · macOS（Apple Developer 登録資金調達後）',
+    'hero.download': '⬇ 今すぐダウンロード',
+    'pain.label': '課題', 'pain.title': '心当たりありませんか？',
+    'pain.sub': '既存の Markdown ツールは macOS 専用・重すぎ・見た目が悪い・クローズドソースのどれか',
+    'pain.p1.tag': 'Windows の問題', 'pain.p1.title': 'メモ帳の Markdown レンダリングが残念すぎる',
+    'pain.p1.body': 'Windows 11 のメモ帳は Markdown に対応しているものの、レンダリング品質が低く、フォント・余白・コードブロックが見苦しい。ドキュメントのレビューには使えない。',
+    'pain.p2.tag': 'macOS 専用', 'pain.p2.title': 'Marked2 は最高だが macOS だけ',
+    'pain.p2.body': 'Marked2 は macOS で圧倒的な人気を誇る Markdown プレビューアーで、テーマも豊富でエクスポートも強力。しかし Windows や Linux では使えない。',
+    'pain.p3.tag': '重すぎ', 'pain.p3.title': '他のツールは大げさすぎる',
+    'pain.p3.body': 'VS Code・Typora・Obsidian は高機能だが起動が遅くメモリを食う。.md ファイルをさっと確認したいだけなのに、エディタ全体を起動する必要はない。',
+    'pain.p4.tag': 'クローズドソース', 'pain.p4.title': 'クローズドで機能制限・有料',
+    'pain.p4.body': '多くのクロスプラットフォーム Markdown ツールはクローズドソースで、機能制限・更新が遅い・サブスクが必要。問題が起きても自分で直せない。',
+    'pain.p5.tag': '体験の差', 'pain.p5.title': '.md を開くのは .pdf より難しくあるべきでない',
+    'pain.p5.body': 'PDF をダブルクリックするときれいな文書が開く。.md をダブルクリックすると # や ** や ``` の記号が羅列される。同じ文書なのに扱いが全然違う。',
+    'pain.sol.title': 'だから私は Claude Code に作らせた ✦',
+    'pain.sol.body': '<strong>marked2u</strong> — Tauri で構築したクロスプラットフォーム Markdown プレビューアー。<br/><strong>Obsidian と同じレンダリングエンジン</strong>をデフォルト搭載し、軽量・オープンソース。<br/>Windows / Linux でも同じ体験を。もう妥協しなくていい。',
+    'feat.label': '機能', 'feat.title': '必要なものが揃ってる', 'feat.sub': '無駄なし。Markdown プレビューに特化。',
+    'feat.f1.title': '即座にプレビュー', 'feat.f1.body': '.md ファイルをウィンドウにドラッグ、または <code>marked2u file.md</code> で即レンダリング。保存後に自動更新。',
+    'feat.f2.title': '10 種類の CSS テーマ', 'feat.f2.body': 'Obsidian、GitHub、Swiss、Ink、Multi-Column、Grump などを内蔵。Custom CSS 対応。⌘1–⌘9 で切替。',
+    'feat.f3.title': '全文検索', 'feat.f3.body': 'Ctrl+F / Cmd+F で Find Bar を開き、マーカーでリアルタイム強調表示。Whole words・大文字小文字・Regex 対応。',
+    'feat.f4.title': 'Mermaid 図表', 'feat.f4.body': 'フローチャート・シーケンス図・ガントチャートをインラインレンダリング。エクスポート時も SVG を保持。',
+    'feat.f5.title': 'ワンクリックエクスポート', 'feat.f5.body': 'HTML（CDN 付き）・PDF（A4 ページ区切り）・DOCX・MD・OPML をアイコンクリックでエクスポート。',
+    'feat.f6.title': '完全オープンソース・個人利用無料', 'feat.f6.body': 'PolyForm Noncommercial License 採用。個人・非商業利用は完全無料。ソースは GitHub 公開、PR 歓迎。',
+    'ss.label': 'スクリーンショット', 'ss.title': 'こんな感じです', 'ss.sub': 'Obsidian と全く同じ、クリーンで見やすい表示',
+    'ss.cap1': '<strong>Find Bar</strong> — Ctrl+F 全文検索、リアルタイムハイライト、Regex 対応',
+    'ss.cap2': '<strong>10 テーマ</strong> — Obsidian から Grump まで、ショートカットで瞬時に切替',
+    'ss.cap3': '<strong>エクスポートパネル</strong> — HTML・PDF・DOCX・MD・OPML、右下の共有アイコンから',
+    'dl.label': 'ダウンロード', 'dl.title': 'プラットフォームを選択', 'dl.sub': '無料・オープンソース・アカウント不要', 'dl.btn': '⬇ ダウンロード',
+    'dl.mac.note': 'Apple Developer 登録が必要<br>（$99/年）', 'dl.mac.btn': '資金調達後に対応予定',
+    'dl.note': '全リリースは GitHub Actions で自動ビルドし、ClamAV / Windows Defender でウイルススキャン済み。<br/><a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">ソースコード</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License</a>',
+    'footer.credit': '100% <a href="https://claude.ai/code" target="_blank">Claude Code</a> 製 · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License 1.0.0</a>',
+  }
+}
+
+function detectLang() {
+  const saved = localStorage.getItem('lang')
+  if (saved && I18N[saved]) return saved
+  const nav = navigator.language || 'zh-TW'
+  if (nav.startsWith('zh-CN') || nav === 'zh') return 'zh-CN'
+  if (nav.startsWith('zh')) return 'zh-TW'
+  if (nav.startsWith('ja')) return 'ja'
+  return 'en'
+}
+
+function applyLang(lang) {
+  const t = I18N[lang]
+  if (!t) return
+  localStorage.setItem('lang', lang)
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n
+    if (t[key] !== undefined) el.innerHTML = t[key]
+  })
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang)
+  })
+  document.documentElement.lang = lang
+}
+
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyLang(btn.dataset.lang))
+})
+
+applyLang(detectLang())
+</script>
 </body>
 </html>

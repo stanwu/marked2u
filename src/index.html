@@ -28,5 +28,63 @@
       <label><input type="checkbox" id="find-regex" /> Regex</label>
     </div>
     <article id="preview" class="markdown-body"></article>
+
+    <!-- Bottom toolbar -->
+    <div id="toolbar">
+      <button id="toolbar-export" title="Export (⇧⌘E)">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9,2 9,12"/>
+          <polyline points="5,6 9,2 13,6"/>
+          <polyline points="3,13 3,16 15,16 15,13"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Export drawer -->
+    <div id="export-drawer" hidden>
+      <div id="export-backdrop"></div>
+      <div id="export-panel">
+        <div id="export-formats">
+          <button class="fmt-btn" data-fmt="html">
+            <div class="fmt-icon fmt-html">
+              <svg viewBox="0 0 40 44" width="40" height="44"><rect width="40" height="44" rx="4" fill="#2196F3"/><text x="20" y="18" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="monospace">HTML</text><rect x="6" y="22" width="28" height="2" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="6" y="27" width="20" height="2" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="6" y="32" width="24" height="2" rx="1" fill="rgba(255,255,255,0.6)"/></svg>
+            </div>
+            <span>HTML</span>
+          </button>
+          <button class="fmt-btn" data-fmt="pdf-continuous">
+            <div class="fmt-icon fmt-pdf">
+              <svg viewBox="0 0 40 44" width="40" height="44"><rect width="40" height="44" rx="4" fill="#e53935"/><text x="20" y="15" text-anchor="middle" fill="white" font-size="7.5" font-weight="bold" font-family="monospace">PDF</text><text x="20" y="23" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="5.5" font-family="sans-serif">CONTINUOUS</text><rect x="6" y="27" width="28" height="2" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="6" y="32" width="20" height="2" rx="1" fill="rgba(255,255,255,0.6)"/></svg>
+            </div>
+            <span>PDF</span>
+            <span class="fmt-sub">Continuous</span>
+          </button>
+          <button class="fmt-btn" data-fmt="pdf-paginated">
+            <div class="fmt-icon fmt-pdf">
+              <svg viewBox="0 0 40 44" width="40" height="44"><rect width="40" height="44" rx="4" fill="#c62828"/><text x="20" y="15" text-anchor="middle" fill="white" font-size="7.5" font-weight="bold" font-family="monospace">PDF</text><text x="20" y="23" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-size="5.5" font-family="sans-serif">PAGINATED</text><rect x="6" y="27" width="28" height="2" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="6" y="32" width="20" height="2" rx="1" fill="rgba(255,255,255,0.6)"/></svg>
+            </div>
+            <span>PDF</span>
+            <span class="fmt-sub">Paginated</span>
+          </button>
+          <button class="fmt-btn" data-fmt="docx">
+            <div class="fmt-icon fmt-docx">
+              <svg viewBox="0 0 40 44" width="40" height="44"><rect width="40" height="44" rx="4" fill="#1565C0"/><text x="20" y="18" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="monospace">DOCX</text><rect x="6" y="22" width="28" height="2" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="6" y="27" width="20" height="2" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="6" y="32" width="24" height="2" rx="1" fill="rgba(255,255,255,0.6)"/></svg>
+            </div>
+            <span>DOCX</span>
+          </button>
+          <button class="fmt-btn" data-fmt="md">
+            <div class="fmt-icon fmt-md">
+              <svg viewBox="0 0 40 44" width="40" height="44"><rect width="40" height="44" rx="4" fill="#F9A825"/><text x="20" y="18" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="monospace">MD</text><rect x="6" y="22" width="28" height="2" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="6" y="27" width="20" height="2" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="6" y="32" width="24" height="2" rx="1" fill="rgba(255,255,255,0.6)"/></svg>
+            </div>
+            <span>MD</span>
+          </button>
+          <button class="fmt-btn" data-fmt="opml">
+            <div class="fmt-icon fmt-opml">
+              <svg viewBox="0 0 40 44" width="40" height="44"><rect width="40" height="44" rx="4" fill="#6A1B9A"/><text x="20" y="18" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="monospace">OPML</text><rect x="6" y="22" width="28" height="2" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="6" y="27" width="20" height="2" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="6" y="32" width="24" height="2" rx="1" fill="rgba(255,255,255,0.6)"/></svg>
+            </div>
+            <span>OPML</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

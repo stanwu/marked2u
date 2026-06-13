@@ -312,3 +312,117 @@ html, body {
   .callout-question { background: #2e2610; color: var(--text); }
   .callout-example  { background: #221a38; color: var(--text); }
 }
+
+/* ── Bottom toolbar ── */
+#toolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 12px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  z-index: 900;
+}
+
+#toolbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+#toolbar button:hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+#toolbar button.active { color: var(--link); }
+
+/* push preview above toolbar */
+#preview { padding-bottom: 60px; }
+body.find-open #preview { padding-top: 44px; }
+
+/* ── Export drawer ── */
+#export-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+}
+
+#export-panel {
+  position: fixed;
+  bottom: 36px;
+  left: 0;
+  right: 0;
+  z-index: 960;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 20px 24px;
+  transform: translateY(100%);
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#export-drawer:not([hidden]) #export-panel {
+  transform: translateY(0);
+}
+
+#export-formats {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.fmt-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.15s;
+  min-width: 64px;
+}
+
+.fmt-btn:hover { background: var(--border); }
+
+.fmt-icon {
+  width: 48px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.18));
+}
+
+.fmt-btn span {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+  text-align: center;
+}
+
+.fmt-btn .fmt-sub {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* loading spinner on fmt-btn */
+.fmt-btn.loading { opacity: 0.6; pointer-events: none; }

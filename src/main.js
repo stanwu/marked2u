@@ -1,3 +1,4 @@
+import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx'
 import MarkdownIt from 'markdown-it'
 import markdownItObsidianCallouts from 'markdown-it-obsidian-callouts'
 import mermaid from 'mermaid'
@@ -39,6 +40,8 @@ const emptyState = document.getElementById('empty-state')
 async function renderFile(path) {
   try {
     const content = await invoke('read_file', { path })
+    currentFilePath = path
+    currentMarkdown = content
     preview.innerHTML = md.render(content)
     emptyState.style.display = 'none'
     preview.style.display = 'block'
@@ -237,6 +240,139 @@ document.addEventListener('keydown', (e) => {
     e.preventDefault()
     openFind()
   }
+})
+
+// ── Export ──
+let currentFilePath = null
+let currentMarkdown = null
+
+const exportDrawer = document.getElementById('export-drawer')
+const exportPanel = document.getElementById('export-panel')
+const exportBackdrop = document.getElementById('export-backdrop')
+const toolbarExportBtn = document.getElementById('toolbar-export')
+
+function openExport() {
+  exportDrawer.hidden = false
+  toolbarExportBtn.classList.add('active')
+  requestAnimationFrame(() => exportPanel.style.transform = '')
+}
+
+function closeExport() {
+  exportDrawer.hidden = true
+  toolbarExportBtn.classList.remove('active')
+}
+
+toolbarExportBtn.addEventListener('click', () => {
+  exportDrawer.hidden ? openExport() : closeExport()
+})
+
+exportBackdrop.addEventListener('click', closeExport)
+
+document.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'e') {
+    e.preventDefault()
+    exportDrawer.hidden ? openExport() : closeExport()
+  }
+  if (e.key === 'Escape' && !exportDrawer.hidden) closeExport()
+})
+
+function getBaseName() {
+  if (!currentFilePath) return 'document'
+  return currentFilePath.replace(/\\/g, '/').split('/').pop().replace(/\.md$/i, '')
+}
+
+function saveBlob(blob, filename) {
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+function exportHTML() {
+  const styles = [...document.styleSheets]
+    .flatMap(s => { try { return [...s.cssRules].map(r => r.cssText) } catch { return [] } })
+    .join('\n')
+  const html = `<!doctype html><html><head><meta charset="UTF-8"><style>${styles}</style></head><body><article class="markdown-body" style="max-width:740px;margin:0 auto;padding:48px 32px">${preview.innerHTML}</article></body></html>`
+  saveBlob(new Blob([html], { type: 'text/html' }), `${getBaseName()}.html`)
+}
+
+function exportMD() {
+  if (!currentMarkdown) return
+  saveBlob(new Blob([currentMarkdown], { type: 'text/markdown' }), `${getBaseName()}.md`)
+}
+
+function exportPDF(paginated) {
+  const style = document.createElement('style')
+  style.id = '__pdf-style'
+  if (paginated) {
+    style.textContent = `@media print { * { -webkit-print-color-adjust: exact; } h2,h3,h4 { page-break-after: avoid; } pre,table,figure { page-break-inside: avoid; } }`
+  } else {
+    style.textContent = `@media print { * { -webkit-print-color-adjust: exact; } }`
+  }
+  document.head.appendChild(style)
+  window.print()
+  document.getElementById('__pdf-style')?.remove()
+}
+
+async function exportDOCX() {
+  if (!currentMarkdown) return
+  const lines = currentMarkdown.split('\n')
+  const children = []
+  for (const line of lines) {
+    const h1 = line.match(/^#\s+(.+)/)
+    const h2 = line.match(/^##\s+(.+)/)
+    const h3 = line.match(/^###\s+(.+)/)
+    if (h1) children.push(new Paragraph({ text: h1[1], heading: HeadingLevel.HEADING_1 }))
+    else if (h2) children.push(new Paragraph({ text: h2[1], heading: HeadingLevel.HEADING_2 }))
+    else if (h3) children.push(new Paragraph({ text: h3[1], heading: HeadingLevel.HEADING_3 }))
+    else if (line.trim() === '') children.push(new Paragraph({}))
+    else children.push(new Paragraph({ children: [new TextRun(line.replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1').replace(/`(.+?)`/g, '$1'))] }))
+  }
+  const doc = new Document({ sections: [{ children }] })
+  const blob = await Packer.toBlob(doc)
+  saveBlob(blob, `${getBaseName()}.docx`)
+}
+
+function exportOPML() {
+  if (!currentMarkdown) return
+  const lines = currentMarkdown.split('\n')
+  const esc = s => s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<opml version="2.0"><head><title>${esc(getBaseName())}</title></head><body>\n`
+  const stack = [{ level: 0, indent: '' }]
+  for (const line of lines) {
+    const m = line.match(/^(#{1,6})\s+(.+)/)
+    if (!m) continue
+    const level = m[1].length
+    const text = esc(m[2])
+    while (stack.length > 1 && stack[stack.length-1].level >= level) stack.pop()
+    const indent = '  '.repeat(stack.length)
+    xml += `${indent}<outline text="${text}">\n`
+    stack.push({ level, close: `${indent}</outline>\n` })
+  }
+  while (stack.length > 1) xml += stack.pop().close
+  xml += '</body></opml>'
+  saveBlob(new Blob([xml], { type: 'text/xml' }), `${getBaseName()}.opml`)
+}
+
+document.querySelectorAll('.fmt-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    btn.classList.add('loading')
+    try {
+      switch (btn.dataset.fmt) {
+        case 'html': exportHTML(); break
+        case 'pdf-continuous': exportPDF(false); break
+        case 'pdf-paginated': exportPDF(true); break
+        case 'docx': await exportDOCX(); break
+        case 'md': exportMD(); break
+        case 'opml': exportOPML(); break
+      }
+    } finally {
+      btn.classList.remove('loading')
+      closeExport()
+    }
+  })
 })
 
 init()

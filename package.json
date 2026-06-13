@@ -13,6 +13,8 @@
     "vite": "^8.0.16"
   },
   "dependencies": {
+    "docx": "^9.7.1",
+    "file-saver": "^2.0.5",
     "highlight.js": "^11.11.1",
     "markdown-it": "^14.2.0",
     "markdown-it-obsidian-callouts": "^0.3.4",

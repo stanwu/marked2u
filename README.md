@@ -38,6 +38,8 @@
 
 ## 快速開始
 
+最快的方法：將本專案丟給 AI agent 處理即可
+
 ### 開發環境需求
 
 - [Node.js](https://nodejs.org/) 18+

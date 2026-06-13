@@ -444,7 +444,6 @@ document.querySelectorAll('.fmt-btn').forEach(btn => {
     try {
       switch (btn.dataset.fmt) {
         case 'html': exportHTML(); break
-        case 'pdf-continuous': exportPDF(false); break
         case 'pdf-paginated': exportPDF(true); break
         case 'docx': await exportDOCX(); break
         case 'md': exportMD(); break

@@ -30,6 +30,84 @@
   }
 }
 
+/* ── Find bar ── */
+#find-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+#find-bar[hidden] { display: none; }
+
+#find-input {
+  flex: 1;
+  min-width: 120px;
+  max-width: 260px;
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+}
+
+#find-input:focus { border-color: var(--link); }
+#find-input.no-match { border-color: #e74c3c; background: #fdecea; }
+
+#find-count {
+  color: var(--text-muted);
+  white-space: nowrap;
+  min-width: 80px;
+  font-size: 12px;
+}
+
+#find-bar button {
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 13px;
+}
+
+#find-bar button:hover { background: var(--border); }
+#find-close { margin-right: 4px; }
+
+#find-bar label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+mark.find-highlight {
+  background: #ffd966;
+  color: #000;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+mark.find-highlight.current {
+  background: #ff9800;
+  outline: 2px solid #e65100;
+}
+
+/* push preview down when find bar is visible */
+body.find-open #preview { padding-top: 44px; }
+
 html, body {
   height: 100%;
   background: var(--bg);

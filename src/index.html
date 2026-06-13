@@ -17,6 +17,16 @@
       <p>拖曳 Markdown 檔案到這裡，或執行：</p>
       <code>marked2u yourfile.md</code>
     </div>
+    <div id="find-bar" hidden>
+      <button id="find-close">Done</button>
+      <button id="find-prev" title="Previous (Shift+Enter)">&#8593;</button>
+      <button id="find-next" title="Next (Enter)">&#8595;</button>
+      <input id="find-input" type="text" placeholder="Find…" autocomplete="off" spellcheck="false" />
+      <span id="find-count"></span>
+      <label><input type="checkbox" id="find-whole-words" /> Whole words</label>
+      <label><input type="checkbox" id="find-case" /> Case sensitive</label>
+      <label><input type="checkbox" id="find-regex" /> Regex</label>
+    </div>
     <article id="preview" class="markdown-body"></article>
   </body>
 </html>

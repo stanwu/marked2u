@@ -256,7 +256,13 @@ const THEMES = [
   { id: 'grump', name: 'Grump', key: '1', alt: true },
 ]
 
-const themeLink = document.getElementById('theme-link')
+let themeLink = document.getElementById('theme-link')
+if (!themeLink) {
+  themeLink = document.createElement('link')
+  themeLink.id = 'theme-link'
+  themeLink.rel = 'stylesheet'
+  document.head.appendChild(themeLink)
+}
 const themeMenu = document.getElementById('theme-menu')
 const themeBackdrop = document.getElementById('theme-backdrop')
 const toolbarThemeBtn = document.getElementById('toolbar-theme')

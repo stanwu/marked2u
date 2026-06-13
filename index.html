@@ -109,6 +109,18 @@
     .platform-exts { font-size: 0.82rem; color: var(--muted); margin-bottom: 18px; }
     .platform-btn { display: inline-flex; align-items: center; gap: 6px; background: var(--accent); color: #fff; text-decoration: none; padding: 9px 18px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; transition: background 0.2s; }
     .platform-btn:hover { background: var(--accent2); }
+    .license-card { max-width: 860px; margin: 40px auto 0; background: linear-gradient(135deg, rgba(124,108,247,0.1), rgba(52,211,153,0.06)); border: 1px solid rgba(124,108,247,0.35); border-radius: 16px; padding: 28px 32px; }
+    .license-card-inner { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .license-icon { font-size: 2.4rem; flex-shrink: 0; }
+    .license-body { flex: 1; min-width: 200px; }
+    .license-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+    .license-tiers { display: flex; gap: 12px; flex-wrap: wrap; }
+    .license-tier { display: flex; flex-direction: column; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; min-width: 120px; }
+    .tier-name { font-size: 0.78rem; font-weight: 700; color: var(--accent2); margin-bottom: 2px; }
+    .tier-price { font-size: 1.1rem; font-weight: 800; color: var(--text); }
+    .tier-desc { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+    .license-btn { flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff; text-decoration: none; padding: 12px 24px; border-radius: 10px; font-size: 0.95rem; font-weight: 700; transition: background 0.2s, transform 0.15s; white-space: nowrap; }
+    .license-btn:hover { background: var(--accent2); transform: translateY(-1px); }
     .download-note { margin-top: 36px; font-size: 0.85rem; color: var(--muted); }
     .download-note a { color: var(--accent2); text-decoration: none; }
     .download-note a:hover { text-decoration: underline; }
@@ -272,6 +284,20 @@
       <span class="platform-btn" style="background:rgba(124,108,247,0.25);color:#a78bfa;cursor:not-allowed;border:1px solid rgba(124,108,247,0.3)" data-i18n="dl.mac.btn"></span>
     </div>
   </div>
+  <div class="license-card">
+    <div class="license-card-inner">
+      <div class="license-icon">💼</div>
+      <div class="license-body">
+        <div class="license-title" data-i18n="lic.title"></div>
+        <div class="license-tiers">
+          <div class="license-tier"><span class="tier-name" data-i18n="lic.t1.name"></span><span class="tier-price" data-i18n="lic.t1.price"></span><span class="tier-desc" data-i18n="lic.t1.desc"></span></div>
+          <div class="license-tier"><span class="tier-name" data-i18n="lic.t2.name"></span><span class="tier-price" data-i18n="lic.t2.price"></span><span class="tier-desc" data-i18n="lic.t2.desc"></span></div>
+          <div class="license-tier"><span class="tier-name" data-i18n="lic.t3.name"></span><span class="tier-price" data-i18n="lic.t3.price"></span><span class="tier-desc" data-i18n="lic.t3.desc"></span></div>
+        </div>
+      </div>
+      <a class="license-btn" href="mailto:purchase-marked2u@stanwu.org?subject=Purchase%20Marked2u" data-i18n="lic.btn"></a>
+    </div>
+  </div>
   <p class="download-note" data-i18n="dl.note"></p>
 </section>
 
@@ -317,6 +343,11 @@ const I18N = {
     'ss.cap3': '<strong>匯出面板</strong> — HTML、PDF、DOCX、MD、OPML，右下角分享鍵觸發',
     'dl.label': '下載', 'dl.title': '選擇你的平台', 'dl.sub': '免費下載，開源，無需帳號', 'dl.btn': '⬇ 下載',
     'dl.mac.soon': 'Coming Soon', 'dl.mac.note': '需 Apple 開發者憑證<br>（$99/年）', 'dl.mac.btn': '等蘋果開發者資金到位',
+    'lic.title': '商業授權 — 用於商業用途請購買授權',
+    'lic.t1.name': '個人商業', 'lic.t1.price': 'USD $19', 'lic.t1.desc': '單人・買斷',
+    'lic.t2.name': '團隊（≤10人）', 'lic.t2.price': 'USD $59', 'lic.t2.desc': '中小企業・買斷',
+    'lic.t3.name': '企業', 'lic.t3.price': '詢價', 'lic.t3.desc': '大量授權・客製',
+    'lic.btn': '✉ 購買商業授權',
     'dl.note': '所有 Release 由 GitHub Actions 自動編譯並完成 ClamAV / Windows Defender 掃毒驗證。<br/>查看 <a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">原始碼</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License</a>',
     'footer.credit': '本專案 100% 由 <a href="https://claude.ai/code" target="_blank">Claude Code</a> 自主開發 · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License 1.0.0</a>',
   },
@@ -354,6 +385,11 @@ const I18N = {
     'ss.cap3': '<strong>导出面板</strong> — HTML、PDF、DOCX、MD、OPML，右下角分享键触发',
     'dl.label': '下载', 'dl.title': '选择你的平台', 'dl.sub': '免费下载，开源，无需账号', 'dl.btn': '⬇ 下载',
     'dl.mac.soon': 'Coming Soon', 'dl.mac.note': '需 Apple 开发者证书<br>（$99/年）', 'dl.mac.btn': '等苹果开发者资金到位',
+    'lic.title': '商业授权 — 商业用途请购买授权',
+    'lic.t1.name': '个人商业', 'lic.t1.price': 'USD $19', 'lic.t1.desc': '单人・买断',
+    'lic.t2.name': '团队（≤10人）', 'lic.t2.price': 'USD $59', 'lic.t2.desc': '中小企业・买断',
+    'lic.t3.name': '企业', 'lic.t3.price': '询价', 'lic.t3.desc': '大量授权・定制',
+    'lic.btn': '✉ 购买商业授权',
     'dl.note': '所有 Release 由 GitHub Actions 自动编译并完成 ClamAV / Windows Defender 杀毒验证。<br/>查看 <a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">源码</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License</a>',
     'footer.credit': '本项目 100% 由 <a href="https://claude.ai/code" target="_blank">Claude Code</a> 自主开发 · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License 1.0.0</a>',
   },
@@ -391,6 +427,11 @@ const I18N = {
     'ss.cap3': '<strong>Export Panel</strong> — HTML, PDF, DOCX, MD, OPML — triggered by the share icon',
     'dl.label': 'Download', 'dl.title': 'Choose your platform', 'dl.sub': 'Free download. Open source. No account required.', 'dl.btn': '⬇ Download',
     'dl.mac.soon': 'Coming Soon', 'dl.mac.note': 'Requires Apple Developer account<br>($99/year)', 'dl.mac.btn': 'Pending funding',
+    'lic.title': 'Commercial License — required for commercial use',
+    'lic.t1.name': 'Individual', 'lic.t1.price': 'USD $19', 'lic.t1.desc': '1 user · perpetual',
+    'lic.t2.name': 'Team (≤10)', 'lic.t2.price': 'USD $59', 'lic.t2.desc': 'SMB · perpetual',
+    'lic.t3.name': 'Enterprise', 'lic.t3.price': 'Contact', 'lic.t3.desc': 'Volume · custom',
+    'lic.btn': '✉ Purchase License',
     'dl.note': 'All releases are built by GitHub Actions and scanned by ClamAV / Windows Defender before publishing.<br/><a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">Source</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License</a>',
     'footer.credit': '100% autonomously built by <a href="https://claude.ai/code" target="_blank">Claude Code</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License 1.0.0</a>',
   },
@@ -428,6 +469,11 @@ const I18N = {
     'ss.cap3': '<strong>エクスポートパネル</strong> — HTML・PDF・DOCX・MD・OPML、右下の共有アイコンから',
     'dl.label': 'ダウンロード', 'dl.title': 'プラットフォームを選択', 'dl.sub': '無料・オープンソース・アカウント不要', 'dl.btn': '⬇ ダウンロード',
     'dl.mac.soon': 'Coming Soon', 'dl.mac.note': 'Apple Developer 登録が必要<br>（$99/年）', 'dl.mac.btn': '資金調達後に対応予定',
+    'lic.title': '商用ライセンス — 商用利用には購入が必要',
+    'lic.t1.name': '個人商用', 'lic.t1.price': 'USD $19', 'lic.t1.desc': '1ユーザー・買切',
+    'lic.t2.name': 'チーム（≤10人）', 'lic.t2.price': 'USD $59', 'lic.t2.desc': '中小企業・買切',
+    'lic.t3.name': 'エンタープライズ', 'lic.t3.price': '要相談', 'lic.t3.desc': '大量・カスタム',
+    'lic.btn': '✉ 商用ライセンスを購入',
     'dl.note': '全リリースは GitHub Actions で自動ビルドし、ClamAV / Windows Defender でウイルススキャン済み。<br/><a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">ソースコード</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License</a>',
     'footer.credit': '100% <a href="https://claude.ai/code" target="_blank">Claude Code</a> 自律開発 · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">PolyForm Noncommercial License 1.0.0</a>',
   }

@@ -295,7 +295,12 @@
           <div class="license-tier"><span class="tier-name" data-i18n="lic.t2.name"></span><span class="tier-price" data-i18n="lic.t2.price"></span><span class="tier-desc" data-i18n="lic.t2.desc"></span></div>
           <div class="license-tier"><span class="tier-name" data-i18n="lic.t3.name"></span><span class="tier-price" data-i18n="lic.t3.price"></span><span class="tier-desc" data-i18n="lic.t3.desc"></span></div>
         </div>
-        <div class="license-email" style="margin-top:14px" data-i18n="lic.contact"></div>
+        <div class="license-email" style="margin-top:14px;display:flex;align-items:center;justify-content:center;gap:8px">
+          <span data-i18n="lic.contact"></span>
+          <button class="copy-email-btn" onclick="(function(b){navigator.clipboard.writeText('purchase-marked2u@stanwu.org').then(function(){b.innerHTML='<svg width=16 height=16 viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'#34d399\' stroke-width=2.5><polyline points=\'20 6 9 17 4 12\'/></svg>';setTimeout(function(){b.innerHTML='<svg width=16 height=16 viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=2><rect x=9 y=9 width=13 height=13 rx=2/><path d=\'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\'/></svg>'},1500)})})(this)" title="複製 email" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:2px;display:flex;align-items:center;transition:color 0.2s" onmouseover="this.style.color='var(--accent2)'" onmouseout="this.style.color='var(--muted)'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>

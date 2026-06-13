@@ -106,7 +106,7 @@ jobs:
             執行 `.exe` 或 `.msi` 安裝程式。
 
             ---
-            > 本專案 100% 由 [Claude Code](https://claude.ai/code) 開發。
+            > 本專案由 [Claude Code](https://claude.ai/code) AI 輔助開發。
           releaseDraft: true
           prerelease: ${{ inputs.prerelease }}
           includeUpdaterJson: false

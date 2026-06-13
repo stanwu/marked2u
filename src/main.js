@@ -373,10 +373,29 @@ function saveBlob(blob, filename) {
 }
 
 function exportHTML() {
-  const styles = [...document.styleSheets]
-    .flatMap(s => { try { return [...s.cssRules].map(r => r.cssText) } catch { return [] } })
-    .join('\n')
-  const html = `<!doctype html><html><head><meta charset="UTF-8"><style>${styles}</style></head><body><article class="markdown-body" style="max-width:740px;margin:0 auto;padding:48px 32px">${preview.innerHTML}</article></body></html>`
+  const themeHref = themeLink.href
+  const html = `<!doctype html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${getBaseName()}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github.min.css" media="(prefers-color-scheme: light)">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/github-dark.min.css" media="(prefers-color-scheme: dark)">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.75; background: #fff; color: #1a1a1a; padding: 48px 32px; }
+    article { max-width: 740px; margin: 0 auto; }
+    @media (prefers-color-scheme: dark) { body { background: #1e1e2e; color: #cdd6f4; } }
+  </style>
+</head>
+<body>
+  <article class="markdown-body">${preview.innerHTML}</article>
+  <script>hljs.highlightAll(); mermaid.initialize({ startOnLoad: true, theme: 'default' });</script>
+</body>
+</html>`
   saveBlob(new Blob([html], { type: 'text/html' }), `${getBaseName()}.html`)
 }
 

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code Signing Policy — marked2u</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d0d14; --bg2: #13131e; --bg3: #1a1a2e;
+      --border: #2a2a45; --text: #e8e8f0; --muted: #8888aa;
+      --accent: #7c6cf7; --accent2: #a78bfa;
+      --nav-bg: rgba(13,13,20,0.85);
+      --shadow: rgba(0,0,0,0.6);
+    }
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #f8f8fc; --bg2: #f0f0f8; --bg3: #e8e8f4;
+        --border: #d0d0e8; --text: #1a1a2e; --muted: #6666aa;
+        --accent: #6c5cf0; --accent2: #7c6cf7;
+        --nav-bg: rgba(248,248,252,0.9);
+        --shadow: rgba(0,0,0,0.15);
+      }
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif; font-size: 16px; line-height: 1.7; overflow-x: hidden; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 16px 48px; background: var(--nav-bg); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); gap: 16px; }
+    .nav-logo { font-size: 1.2rem; font-weight: 700; color: var(--accent2); letter-spacing: -0.02em; text-decoration: none; }
+    .nav-cta { background: var(--accent); color: #fff; border: none; padding: 8px 20px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 0.2s; white-space: nowrap; }
+    .nav-cta:hover { background: var(--accent2); }
+    main { max-width: 760px; margin: 0 auto; padding: 120px 24px 80px; }
+    h1 { font-size: 2rem; font-weight: 800; margin-bottom: 8px; color: var(--text); }
+    .subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 48px; }
+    h2 { font-size: 1.1rem; font-weight: 700; margin: 36px 0 12px; color: var(--accent2); }
+    p { color: var(--text); margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; }
+    th { text-align: left; padding: 10px 14px; background: var(--bg3); color: var(--muted); font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border); }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text); }
+    ul { padding-left: 20px; margin-bottom: 12px; }
+    li { margin-bottom: 6px; }
+    code { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; font-size: 0.88em; font-family: "SF Mono", "Fira Code", monospace; }
+    pre { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; margin: 12px 0 20px; overflow-x: auto; }
+    pre code { background: none; border: none; padding: 0; font-size: 0.85rem; }
+    a { color: var(--accent2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    footer { padding: 40px 48px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    footer .logo { font-weight: 700; color: var(--accent2); }
+    footer p { font-size: 0.82rem; color: var(--muted); }
+    footer a { color: var(--accent2); text-decoration: none; font-size: 0.82rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">marked2u</a>
+  <a class="nav-cta" href="https://github.com/stanwu/marked2u/releases/latest" target="_blank">⬇ Download</a>
+</nav>
+
+<main>
+  <h1>Code Signing Policy</h1>
+  <p class="subtitle">Last updated: 2026-06-14 · <a href="https://signpath.org/" target="_blank">Signed by SignPath Foundation</a></p>
+
+  <h2>Signing Team</h2>
+  <table>
+    <tr><th>Role</th><th>Member</th></tr>
+    <tr><td>Author</td><td>Stan Wu</td></tr>
+    <tr><td>Reviewer</td><td>Stan Wu</td></tr>
+    <tr><td>Approver</td><td>Stan Wu</td></tr>
+  </table>
+
+  <h2>Signed Artifacts</h2>
+  <p>Windows installers (<code>.exe</code>, <code>.msi</code>) are signed for each official release. Linux packages (<code>.deb</code>, <code>.rpm</code>) and source code are not covered by this signing policy.</p>
+
+  <h2>Policy</h2>
+  <ul>
+    <li>All signing requests require manual approval by the Approver before execution.</li>
+    <li>Signing is performed only on artifacts produced by the official GitHub Actions release workflow.</li>
+    <li>All team members have Multi-Factor Authentication (MFA) enabled on their GitHub accounts.</li>
+    <li>The signing certificate is issued by <a href="https://signpath.org/" target="_blank">SignPath Foundation</a> for open-source projects under the GNU GPL v3.</li>
+  </ul>
+
+  <h2>Verification</h2>
+  <p>Signed Windows binaries can be verified via Windows Explorer (right-click → Properties → Digital Signatures) or PowerShell:</p>
+  <pre><code>Get-AuthenticodeSignature .\marked2u_x64-setup.exe</code></pre>
+
+  <h2>Build Transparency</h2>
+  <p>All release builds are produced by GitHub Actions. Build logs are publicly visible at <a href="https://github.com/stanwu/marked2u/actions" target="_blank">github.com/stanwu/marked2u/actions</a>.</p>
+</main>
+
+<footer>
+  <span class="logo">marked2u</span>
+  <p>Built with <a href="https://claude.ai/code" target="_blank">Claude Code</a> AI assistance · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">GNU General Public License v3.0</a></p>
+  <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+    <a href="https://github.com/stanwu/marked2u" target="_blank">GitHub →</a>
+    <a href="code-signing-policy.html">Code Signing Policy</a>
+    <a href="privacy-policy.html">Privacy Policy</a>
+  </div>
+</footer>
+
+</body>
+</html>

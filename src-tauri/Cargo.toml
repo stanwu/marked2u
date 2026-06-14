@@ -1,5 +1,5 @@
 [package]
-name = "marked2u"
+name = "md2u"
 version = "0.1.0"
 description = "Markdown previewer with Mermaid and Obsidian-style rendering"
 authors = ["you"]

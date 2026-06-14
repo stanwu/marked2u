@@ -1,4 +1,4 @@
-# marked2u
+# md2u
 
 > 本專案由 [Claude Code](https://claude.ai/code) AI 輔助開發。
 
@@ -25,7 +25,7 @@
 ## 功能特色
 
 - **拖曳開啟** — 直接將 `.md` 檔案拖曳到視窗即可預覽
-- **CLI 啟動** — 在終端機以 `marked2u yourfile.md` 開啟指定檔案
+- **CLI 啟動** — 在終端機以 `md2u yourfile.md` 開啟指定檔案
 - **即時重新整理** — 儲存檔案後自動偵測變更並更新預覽
 - **語法高亮** — 透過 [highlight.js](https://highlightjs.org/) 支援數十種程式語言
 - **Mermaid 圖表** — 直接在 Markdown 中渲染流程圖、時序圖等
@@ -68,12 +68,12 @@ npm run tauri build
 
 ## 使用方式
 
-**拖曳**：將任意 `.md` 檔案拖曳到 marked2u 視窗。
+**拖曳**：將任意 `.md` 檔案拖曳到 md2u 視窗。
 
 **命令列**：
 
 ```bash
-marked2u /path/to/yourfile.md
+md2u /path/to/yourfile.md
 ```
 
 檔案儲存後，預覽會自動更新，無需手動重新整理。

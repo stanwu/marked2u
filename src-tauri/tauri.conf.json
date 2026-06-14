@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "marked2u",
+  "productName": "md2u",
   "version": "0.1.0",
-  "identifier": "com.stan.marked2u",
+  "identifier": "com.stan.md2u",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:5173"
@@ -11,7 +11,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "marked2u",
+        "title": "md2u",
         "width": 900,
         "height": 700
       }

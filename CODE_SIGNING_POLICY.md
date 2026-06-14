@@ -1,6 +1,6 @@
 # Code Signing Policy
 
-marked2u uses [SignPath Foundation](https://signpath.org/) to sign Windows release artifacts.
+md2u uses [SignPath Foundation](https://signpath.org/) to sign Windows release artifacts.
 
 ## Signing Team
 
@@ -26,10 +26,10 @@ Windows installers (`.exe`, `.msi`) are signed for each release. Linux packages 
 Signed Windows binaries can be verified by right-clicking the file → Properties → Digital Signatures in Windows Explorer, or via PowerShell:
 
 ```powershell
-Get-AuthenticodeSignature .\marked2u_x64-setup.exe
+Get-AuthenticodeSignature .\md2u_x64-setup.exe
 ```
 
 ## Build Transparency
 
 All release builds are produced by GitHub Actions and logs are publicly visible at:
-https://github.com/stanwu/marked2u/actions
+https://github.com/stanwu/md2u/actions

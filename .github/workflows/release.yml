@@ -75,9 +75,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: ${{ inputs.version }}
-          releaseName: 'marked2u ${{ inputs.version }}'
+          releaseName: 'md2u ${{ inputs.version }}'
           releaseBody: |
-            ## marked2u ${{ inputs.version }}
+            ## md2u ${{ inputs.version }}
 
             輕量級桌面 Markdown 預覽器，基於 Tauri 打造。
 
@@ -96,12 +96,12 @@ jobs:
 
             **Linux (Debian/Ubuntu)**
             ```bash
-            sudo dpkg -i marked2u_*.deb
+            sudo dpkg -i md2u_*.deb
             ```
 
             **Linux (Fedora/RHEL)**
             ```bash
-            sudo rpm -i marked2u-*.rpm
+            sudo rpm -i md2u-*.rpm
             ```
 
             **Windows**
@@ -173,7 +173,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: ${{ inputs.version }}
-          releaseName: 'marked2u ${{ inputs.version }}'
+          releaseName: 'md2u ${{ inputs.version }}'
           releaseDraft: true
           prerelease: ${{ inputs.prerelease }}
           includeUpdaterJson: false
@@ -244,7 +244,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: ${{ inputs.version }}
-          releaseName: 'marked2u ${{ inputs.version }}'
+          releaseName: 'md2u ${{ inputs.version }}'
           releaseDraft: true
           prerelease: ${{ inputs.prerelease }}
           includeUpdaterJson: false

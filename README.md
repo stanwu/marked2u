@@ -1,10 +1,10 @@
-# marked2u — Cross-Platform Markdown Previewer
+# md2u — Cross-Platform Markdown Previewer
 
 > Developed with [Claude Code](https://claude.ai/code) AI assistance.
 
 A lightweight desktop Markdown previewer built with [Tauri](https://tauri.app/). Features live file watching, Mermaid diagrams, syntax highlighting, and Obsidian-style Callouts.
 
-**[⬇ Download Latest Release](https://github.com/stanwu/marked2u/releases/latest)** · [Landing Page](https://marked2u.stanwu.org)
+**[⬇ Download Latest Release](https://github.com/stanwu/md2u/releases/latest)** · [Landing Page](https://md2u.stanwu.org)
 
 ## Screenshots
 
@@ -27,7 +27,7 @@ A lightweight desktop Markdown previewer built with [Tauri](https://tauri.app/).
 ## Features
 
 - **Drag & Drop** — Drag any `.md` file onto the window to preview
-- **CLI Launch** — Open a file from the terminal with `marked2u yourfile.md`
+- **CLI Launch** — Open a file from the terminal with `md2u yourfile.md`
 - **Live Reload** — Auto-detects file changes and updates the preview on save
 - **Syntax Highlighting** — Powered by [highlight.js](https://highlightjs.org/) for dozens of languages
 - **Mermaid Diagrams** — Render flowcharts, sequence diagrams, and more inline
@@ -70,12 +70,12 @@ Output artifacts are in `src-tauri/target/release/bundle/`.
 
 ## Usage
 
-**Drag & Drop**: Drag any `.md` file onto the marked2u window.
+**Drag & Drop**: Drag any `.md` file onto the md2u window.
 
 **Command Line**:
 
 ```bash
-marked2u /path/to/yourfile.md
+md2u /path/to/yourfile.md
 ```
 
 The preview updates automatically when the file is saved — no manual refresh needed.

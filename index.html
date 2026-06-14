@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>marked2u — Cross-Platform Markdown Previewer</title>
+  <title>md2u — Cross-Platform Markdown Previewer</title>
   <meta name="description" content="Lightweight, open-source, cross-platform Markdown previewer with Obsidian-style rendering." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -131,7 +131,7 @@
 <body>
 
 <nav>
-  <span class="nav-logo">marked2u</span>
+  <span class="nav-logo">md2u</span>
   <div class="nav-links">
     <a href="#pain" data-i18n="nav.why"></a>
     <a href="#features" data-i18n="nav.features"></a>
@@ -156,14 +156,14 @@
   <p class="hero-sub" data-i18n="hero.sub"></p>
   <div class="hero-actions">
     <a class="btn-primary" href="#download" data-i18n="hero.download"></a>
-    <a class="btn-secondary" href="https://github.com/stanwu/marked2u" target="_blank">★ GitHub</a>
+    <a class="btn-secondary" href="https://github.com/stanwu/md2u" target="_blank">★ GitHub</a>
   </div>
   <div class="hero-screenshot">
     <div class="screenshot-bar">
       <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
-      <span>README.md — marked2u</span>
+      <span>README.md — md2u</span>
     </div>
-    <img id="hero-screenshot" src="screenshots/preview.png" alt="marked2u preview" />
+    <img id="hero-screenshot" src="screenshots/preview.png" alt="md2u preview" />
   </div>
 </section>
 
@@ -256,13 +256,13 @@
       <div class="platform-icon" style="font-size:52px;line-height:1">🐧</div>
       <div class="platform-name">Linux</div>
       <div class="platform-exts">.deb (Debian / Ubuntu)<br>.rpm (Fedora / RHEL)</div>
-      <a class="platform-btn" href="https://github.com/stanwu/marked2u/releases/latest" target="_blank" data-i18n="dl.btn"></a>
+      <a class="platform-btn" href="https://github.com/stanwu/md2u/releases/latest" target="_blank" data-i18n="dl.btn"></a>
     </div>
     <div class="platform-card">
       <div class="platform-icon"><svg width="52" height="52" viewBox="0 0 24 24" fill="#0078d4" xmlns="http://www.w3.org/2000/svg"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg></div>
       <div class="platform-name">Windows</div>
       <div class="platform-exts">.exe / .msi (x64)<br>.exe / .msi (ARM64)<br><span style="font-size:0.78rem;color:#a78bfa">✦ 支援 NVIDIA RTX Spark</span></div>
-      <a class="platform-btn" href="https://github.com/stanwu/marked2u/releases/latest" target="_blank" data-i18n="dl.btn"></a>
+      <a class="platform-btn" href="https://github.com/stanwu/md2u/releases/latest" target="_blank" data-i18n="dl.btn"></a>
     </div>
     <div class="platform-card" style="position:relative;border-color:rgba(124,108,247,0.25)">
       <div style="position:absolute;top:12px;right:12px;font-size:0.7rem;font-weight:700;background:rgba(248,113,113,0.15);color:#f87171;border:1px solid rgba(248,113,113,0.4);padding:2px 8px;border-radius:999px" data-i18n="dl.mac.soon"></div>
@@ -276,10 +276,10 @@
 </section>
 
 <footer>
-  <span class="logo">marked2u</span>
+  <span class="logo">md2u</span>
   <p data-i18n="footer.credit"></p>
   <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
-    <a href="https://github.com/stanwu/marked2u" target="_blank">GitHub →</a>
+    <a href="https://github.com/stanwu/md2u" target="_blank">GitHub →</a>
     <a href="code-signing-policy.html" style="font-size:0.82rem">Code Signing Policy</a>
     <a href="privacy-policy.html" style="font-size:0.82rem">Privacy Policy</a>
   </div>
@@ -307,9 +307,9 @@ const I18N = {
     'pain.p5.tag': '體驗落差', 'pain.p5.title': '看 MD 不應該比看 PDF 難',
     'pain.p5.body': '雙擊 PDF，畫面清晰乾淨，字型、排版、圖表一目瞭然。雙擊 .md，卻只看到一堆 # 、** 、``` 符號。同樣是文件，待遇卻天差地別。',
     'pain.sol.title': '所以我就直接做了一個 ✦',
-    'pain.sol.body': '<strong>marked2u</strong> — 基於 Tauri 打造的跨平台 Markdown 預覽器，<br/>預設採用與 <strong>Obsidian 相同的渲染引擎</strong>，輕量開源，Windows / Linux 都能用，<br/>終於不用在 macOS 和其他平台之間做出妥協。',
+    'pain.sol.body': '<strong>md2u</strong> — 基於 Tauri 打造的跨平台 Markdown 預覽器，<br/>預設採用與 <strong>Obsidian 相同的渲染引擎</strong>，輕量開源，Windows / Linux 都能用，<br/>終於不用在 macOS 和其他平台之間做出妥協。',
     'feat.label': '功能', 'feat.title': '你需要的，全都有', 'feat.sub': '不多餘、不臃腫，專注在 Markdown 預覽這件事上做到最好',
-    'feat.f1.title': '即開即用，秒速預覽', 'feat.f1.body': '拖曳 .md 檔案到視窗，或命令列 <code>marked2u file.md</code>，立即渲染，儲存後自動更新。',
+    'feat.f1.title': '即開即用，秒速預覽', 'feat.f1.body': '拖曳 .md 檔案到視窗，或命令列 <code>md2u file.md</code>，立即渲染，儲存後自動更新。',
     'feat.f2.title': '10 種 CSS 主題', 'feat.f2.body': '內建 Obsidian、GitHub、Swiss、Ink、Multi-Column、Grump 等主題，支援 Custom CSS 自訂，⌘1–⌘9 快速切換。',
     'feat.f3.title': '全文搜尋', 'feat.f3.body': 'Ctrl+F / Cmd+F 開啟 Find Bar，螢光筆即時標示，支援 Whole words、Case sensitive、Regex。',
     'feat.f4.title': 'Mermaid 圖表', 'feat.f4.body': '直接在 Markdown 中渲染流程圖、時序圖、甘特圖等，export 時 SVG 完整保留。',
@@ -321,8 +321,8 @@ const I18N = {
     'ss.cap3': '<strong>匯出面板</strong> — HTML、PDF、DOCX、MD、OPML，右下角分享鍵觸發',
     'dl.label': '下載', 'dl.title': '選擇你的平台', 'dl.sub': '免費下載，開源，無需帳號', 'dl.btn': '⬇ 下載',
     'dl.mac.soon': 'Coming Soon', 'dl.mac.note': '需 Apple 開發者憑證<br>（$99/年）', 'dl.mac.btn': '等蘋果開發者資金到位',
-    'dl.note': '所有 Release 由 GitHub Actions 自動編譯並完成 ClamAV / Windows Defender 掃毒驗證。<br/>查看 <a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">原始碼</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">GNU GPL v3</a><br/><br/>⚠️ <strong>若防毒軟體出現警告</strong>：本軟體尚未購買程式碼簽署憑證，部分啟發式掃描引擎可能誤判未簽署的開源程式。Windows Defender 與 ClamAV 均已通過。原始碼完全公開，可自行驗證或從原始碼編譯。',
-    'footer.credit': '本專案由 <a href="https://claude.ai/code" target="_blank">Claude Code</a> AI 輔助開發 · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">GNU General Public License v3.0</a>',
+    'dl.note': '所有 Release 由 GitHub Actions 自動編譯並完成 ClamAV / Windows Defender 掃毒驗證。<br/>查看 <a href="https://github.com/stanwu/md2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/md2u" target="_blank">原始碼</a> · <a href="https://github.com/stanwu/md2u/blob/master/LICENSE" target="_blank">GNU GPL v3</a><br/><br/>⚠️ <strong>若防毒軟體出現警告</strong>：本軟體尚未購買程式碼簽署憑證，部分啟發式掃描引擎可能誤判未簽署的開源程式。Windows Defender 與 ClamAV 均已通過。原始碼完全公開，可自行驗證或從原始碼編譯。',
+    'footer.credit': '本專案由 <a href="https://claude.ai/code" target="_blank">Claude Code</a> AI 輔助開發 · <a href="https://github.com/stanwu/md2u/blob/master/LICENSE" target="_blank">GNU General Public License v3.0</a>',
   },
   'zh-CN': {
     'nav.why': '为什么选择', 'nav.features': '功能', 'nav.screenshots': '截图', 'nav.download': '下载', 'nav.cta': '免费下载',
@@ -344,9 +344,9 @@ const I18N = {
     'pain.p5.tag': '体验落差', 'pain.p5.title': '看 MD 不应该比看 PDF 难',
     'pain.p5.body': '双击 PDF，画面清晰干净，字体、排版、图表一目了然。双击 .md，却只看到一堆 #、**、``` 符号。同样是文档，待遇却天差地别。',
     'pain.sol.title': '所以我就直接做了一个 ✦',
-    'pain.sol.body': '<strong>marked2u</strong> — 基于 Tauri 打造的跨平台 Markdown 预览器，<br/>默认采用与 <strong>Obsidian 相同的渲染引擎</strong>，轻量开源，Windows / Linux 都能用，<br/>终于不用在 macOS 和其他平台之间做出妥协。',
+    'pain.sol.body': '<strong>md2u</strong> — 基于 Tauri 打造的跨平台 Markdown 预览器，<br/>默认采用与 <strong>Obsidian 相同的渲染引擎</strong>，轻量开源，Windows / Linux 都能用，<br/>终于不用在 macOS 和其他平台之间做出妥协。',
     'feat.label': '功能', 'feat.title': '你需要的，全都有', 'feat.sub': '不多余、不臃肿，专注在 Markdown 预览这件事上做到最好',
-    'feat.f1.title': '即开即用，秒速预览', 'feat.f1.body': '拖拽 .md 文件到窗口，或命令行 <code>marked2u file.md</code>，立即渲染，保存后自动更新。',
+    'feat.f1.title': '即开即用，秒速预览', 'feat.f1.body': '拖拽 .md 文件到窗口，或命令行 <code>md2u file.md</code>，立即渲染，保存后自动更新。',
     'feat.f2.title': '10 种 CSS 主题', 'feat.f2.body': '内置 Obsidian、GitHub、Swiss、Ink、Multi-Column、Grump 等主题，支持 Custom CSS 自定义，⌘1–⌘9 快速切换。',
     'feat.f3.title': '全文搜索', 'feat.f3.body': 'Ctrl+F / Cmd+F 打开 Find Bar，荧光笔实时标注，支持 Whole words、Case sensitive、Regex。',
     'feat.f4.title': 'Mermaid 图表', 'feat.f4.body': '直接在 Markdown 中渲染流程图、时序图、甘特图等，export 时 SVG 完整保留。',
@@ -358,8 +358,8 @@ const I18N = {
     'ss.cap3': '<strong>导出面板</strong> — HTML、PDF、DOCX、MD、OPML，右下角分享键触发',
     'dl.label': '下载', 'dl.title': '选择你的平台', 'dl.sub': '免费下载，开源，无需账号', 'dl.btn': '⬇ 下载',
     'dl.mac.soon': 'Coming Soon', 'dl.mac.note': '需 Apple 开发者证书<br>（$99/年）', 'dl.mac.btn': '等苹果开发者资金到位',
-    'dl.note': '所有 Release 由 GitHub Actions 自动编译并完成 ClamAV / Windows Defender 杀毒验证。<br/>查看 <a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">源码</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">GNU GPL v3</a><br/><br/>⚠️ <strong>若防病毒软件出现警告</strong>：本软件尚未购买代码签名证书，部分启发式扫描引擎可能误判未签名的开源程序。Windows Defender 与 ClamAV 均已通过。源码完全公开，可自行验证或从源码编译。',
-    'footer.credit': '本项目由 <a href="https://claude.ai/code" target="_blank">Claude Code</a> AI 辅助开发 · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">GNU General Public License v3.0</a>',
+    'dl.note': '所有 Release 由 GitHub Actions 自动编译并完成 ClamAV / Windows Defender 杀毒验证。<br/>查看 <a href="https://github.com/stanwu/md2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/md2u" target="_blank">源码</a> · <a href="https://github.com/stanwu/md2u/blob/master/LICENSE" target="_blank">GNU GPL v3</a><br/><br/>⚠️ <strong>若防病毒软件出现警告</strong>：本软件尚未购买代码签名证书，部分启发式扫描引擎可能误判未签名的开源程序。Windows Defender 与 ClamAV 均已通过。源码完全公开，可自行验证或从源码编译。',
+    'footer.credit': '本项目由 <a href="https://claude.ai/code" target="_blank">Claude Code</a> AI 辅助开发 · <a href="https://github.com/stanwu/md2u/blob/master/LICENSE" target="_blank">GNU General Public License v3.0</a>',
   },
   'en': {
     'nav.why': 'Why', 'nav.features': 'Features', 'nav.screenshots': 'Screenshots', 'nav.download': 'Download', 'nav.cta': 'Free Download',
@@ -381,9 +381,9 @@ const I18N = {
     'pain.p5.tag': 'UX Gap', 'pain.p5.title': 'Opening MD should be as easy as opening PDF',
     'pain.p5.body': "Double-click a PDF: clean, beautiful, readable. Double-click a .md file: a wall of #, **, and ``` symbols. Same document format, completely different experience.",
     'pain.sol.title': 'So I just built one ✦',
-    'pain.sol.body': '<strong>marked2u</strong> — a cross-platform Markdown previewer built with Tauri,<br/>using the <strong>same rendering engine as Obsidian</strong> by default. Lightweight, open-source, runs on Windows and Linux.<br/>No more compromises.',
+    'pain.sol.body': '<strong>md2u</strong> — a cross-platform Markdown previewer built with Tauri,<br/>using the <strong>same rendering engine as Obsidian</strong> by default. Lightweight, open-source, runs on Windows and Linux.<br/>No more compromises.',
     'feat.label': 'Features', 'feat.title': 'Everything you need', 'feat.sub': 'No bloat. Just great Markdown preview.',
-    'feat.f1.title': 'Instant Preview', 'feat.f1.body': 'Drag a .md file to the window, or run <code>marked2u file.md</code>. Renders instantly, auto-updates on save.',
+    'feat.f1.title': 'Instant Preview', 'feat.f1.body': 'Drag a .md file to the window, or run <code>md2u file.md</code>. Renders instantly, auto-updates on save.',
     'feat.f2.title': '10 CSS Themes', 'feat.f2.body': 'Built-in Obsidian, GitHub, Swiss, Ink, Multi-Column, Grump and more. Custom CSS supported. Switch with ⌘1–⌘9.',
     'feat.f3.title': 'Full-Text Find', 'feat.f3.body': 'Ctrl+F / Cmd+F opens Find Bar with live highlight. Supports Whole words, Case sensitive, Regex.',
     'feat.f4.title': 'Mermaid Diagrams', 'feat.f4.body': 'Render flowcharts, sequence diagrams, Gantt charts inline. SVG preserved in exports.',
@@ -395,8 +395,8 @@ const I18N = {
     'ss.cap3': '<strong>Export Panel</strong> — HTML, PDF, DOCX, MD, OPML — triggered by the share icon',
     'dl.label': 'Download', 'dl.title': 'Choose your platform', 'dl.sub': 'Free download. Open source. No account required.', 'dl.btn': '⬇ Download',
     'dl.mac.soon': 'Coming Soon', 'dl.mac.note': 'Requires Apple Developer account<br>($99/year)', 'dl.mac.btn': 'Pending funding',
-    'dl.note': 'All releases are built by GitHub Actions and scanned by ClamAV / Windows Defender before publishing.<br/><a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">Source</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">GNU GPL v3</a><br/><br/>⚠️ <strong>If your antivirus shows a warning</strong>: This app is not yet code-signed. Some heuristic scanners may flag unsigned open-source binaries as suspicious. Windows Defender and ClamAV both pass. Source code is fully public — verify it yourself or build from source.',
-    'footer.credit': 'Built with <a href="https://claude.ai/code" target="_blank">Claude Code</a> AI assistance · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">GNU General Public License v3.0</a>',
+    'dl.note': 'All releases are built by GitHub Actions and scanned by ClamAV / Windows Defender before publishing.<br/><a href="https://github.com/stanwu/md2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/md2u" target="_blank">Source</a> · <a href="https://github.com/stanwu/md2u/blob/master/LICENSE" target="_blank">GNU GPL v3</a><br/><br/>⚠️ <strong>If your antivirus shows a warning</strong>: This app is not yet code-signed. Some heuristic scanners may flag unsigned open-source binaries as suspicious. Windows Defender and ClamAV both pass. Source code is fully public — verify it yourself or build from source.',
+    'footer.credit': 'Built with <a href="https://claude.ai/code" target="_blank">Claude Code</a> AI assistance · <a href="https://github.com/stanwu/md2u/blob/master/LICENSE" target="_blank">GNU General Public License v3.0</a>',
   },
   'ja': {
     'nav.why': '選ぶ理由', 'nav.features': '機能', 'nav.screenshots': 'スクリーンショット', 'nav.download': 'ダウンロード', 'nav.cta': '無料ダウンロード',
@@ -418,9 +418,9 @@ const I18N = {
     'pain.p5.tag': '体験の差', 'pain.p5.title': 'MD を開くのは PDF より難しくあるべきでない',
     'pain.p5.body': 'PDF をダブルクリックするときれいな文書が開く。.md をダブルクリックすると # や ** や ``` の記号が羅列される。同じ文書なのに扱いが全然違う。',
     'pain.sol.title': 'だから自分で作った ✦',
-    'pain.sol.body': '<strong>marked2u</strong> — Tauri で構築したクロスプラットフォーム Markdown プレビューアー。<br/><strong>Obsidian と同じレンダリングエンジン</strong>をデフォルト搭載し、軽量・オープンソース。<br/>Windows / Linux でも同じ体験を。もう妥協しなくていい。',
+    'pain.sol.body': '<strong>md2u</strong> — Tauri で構築したクロスプラットフォーム Markdown プレビューアー。<br/><strong>Obsidian と同じレンダリングエンジン</strong>をデフォルト搭載し、軽量・オープンソース。<br/>Windows / Linux でも同じ体験を。もう妥協しなくていい。',
     'feat.label': '機能', 'feat.title': '必要なものが揃ってる', 'feat.sub': '無駄なし。Markdown プレビューに特化。',
-    'feat.f1.title': '即座にプレビュー', 'feat.f1.body': '.md ファイルをウィンドウにドラッグ、または <code>marked2u file.md</code> で即レンダリング。保存後に自動更新。',
+    'feat.f1.title': '即座にプレビュー', 'feat.f1.body': '.md ファイルをウィンドウにドラッグ、または <code>md2u file.md</code> で即レンダリング。保存後に自動更新。',
     'feat.f2.title': '10 種類の CSS テーマ', 'feat.f2.body': 'Obsidian、GitHub、Swiss、Ink、Multi-Column、Grump などを内蔵。Custom CSS 対応。⌘1–⌘9 で切替。',
     'feat.f3.title': '全文検索', 'feat.f3.body': 'Ctrl+F / Cmd+F で Find Bar を開き、マーカーでリアルタイム強調表示。Whole words・大文字小文字・Regex 対応。',
     'feat.f4.title': 'Mermaid 図表', 'feat.f4.body': 'フローチャート・シーケンス図・ガントチャートをインラインレンダリング。エクスポート時も SVG を保持。',
@@ -432,8 +432,8 @@ const I18N = {
     'ss.cap3': '<strong>エクスポートパネル</strong> — HTML・PDF・DOCX・MD・OPML、右下の共有アイコンから',
     'dl.label': 'ダウンロード', 'dl.title': 'プラットフォームを選択', 'dl.sub': '無料・オープンソース・アカウント不要', 'dl.btn': '⬇ ダウンロード',
     'dl.mac.soon': 'Coming Soon', 'dl.mac.note': 'Apple Developer 登録が必要<br>（$99/年）', 'dl.mac.btn': '資金調達後に対応予定',
-    'dl.note': '全リリースは GitHub Actions で自動ビルドし、ClamAV / Windows Defender でウイルススキャン済み。<br/><a href="https://github.com/stanwu/marked2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/marked2u" target="_blank">ソースコード</a> · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">GNU GPL v3</a><br/><br/>⚠️ <strong>ウイルス対策ソフトが警告を表示した場合</strong>：本アプリはコード署名未取得のため、一部のヒューリスティックスキャナーが未署名の OSS バイナリを誤検知することがあります。Windows Defender・ClamAV はいずれも通過済み。ソースコードは完全公開されており、自己検証またはソースからのビルドが可能です。',
-    'footer.credit': '<a href="https://claude.ai/code" target="_blank">Claude Code</a> AI 支援で開発 · <a href="https://github.com/stanwu/marked2u/blob/master/LICENSE" target="_blank">GNU General Public License v3.0</a>',
+    'dl.note': '全リリースは GitHub Actions で自動ビルドし、ClamAV / Windows Defender でウイルススキャン済み。<br/><a href="https://github.com/stanwu/md2u/actions" target="_blank">Build Log</a> · <a href="https://github.com/stanwu/md2u" target="_blank">ソースコード</a> · <a href="https://github.com/stanwu/md2u/blob/master/LICENSE" target="_blank">GNU GPL v3</a><br/><br/>⚠️ <strong>ウイルス対策ソフトが警告を表示した場合</strong>：本アプリはコード署名未取得のため、一部のヒューリスティックスキャナーが未署名の OSS バイナリを誤検知することがあります。Windows Defender・ClamAV はいずれも通過済み。ソースコードは完全公開されており、自己検証またはソースからのビルドが可能です。',
+    'footer.credit': '<a href="https://claude.ai/code" target="_blank">Claude Code</a> AI 支援で開発 · <a href="https://github.com/stanwu/md2u/blob/master/LICENSE" target="_blank">GNU General Public License v3.0</a>',
   }
 }
 

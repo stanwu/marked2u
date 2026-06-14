@@ -1,117 +1,119 @@
-# marked2u
+# marked2u — Cross-Platform Markdown Previewer
 
-> 本專案由 [Claude Code](https://claude.ai/code) AI 輔助開發。
+> Developed with [Claude Code](https://claude.ai/code) AI assistance.
 
-輕量級的桌面 Markdown 預覽器，基於 [Tauri](https://tauri.app/) 打造。支援即時檔案監聽、Mermaid 圖表、語法高亮與 Obsidian 風格 Callout。
+A lightweight desktop Markdown previewer built with [Tauri](https://tauri.app/). Features live file watching, Mermaid diagrams, syntax highlighting, and Obsidian-style Callouts.
 
-## 截圖
+**[繁體中文 README](README.zh-TW.md)**
 
-### 預覽模式（Obsidian theme）
-![預覽模式](docs/screenshots/preview.png)
-> 渲染 Markdown 文件，底部工具列顯示目前主題與匯出按鈕。
+## Screenshots
 
-### Find Bar（Ctrl+F / Cmd+F）
+### Preview (Obsidian theme)
+![Preview](docs/screenshots/preview.png)
+> Renders Markdown files with the bottom toolbar showing the current theme and export button.
+
+### Find Bar (Ctrl+F / Cmd+F)
 ![Find Bar](docs/screenshots/find.png)
-> 即時搜尋關鍵字，螢光筆標示所有符合項目（橘色為目前焦點），支援 Whole words、Case sensitive、Regex。
+> Live full-text search with highlighter. Supports Whole words, Case sensitive, and Regex.
 
-### CSS Theme 切換
-![CSS Theme 切換](docs/screenshots/themes.png)
-> 10 種內建主題：Obsidian、Swiss、Ink、Multi-Column、GitHub、Amblin、Upstanding Citizen、Lopash、Manuscript、Grump，以及 Custom CSS 自訂選項。快捷鍵 ⌘1–⌘9。
+### CSS Theme Switcher
+![CSS Theme Switcher](docs/screenshots/themes.png)
+> 10 built-in themes: Obsidian, Swiss, Ink, Multi-Column, GitHub, Amblin, Upstanding Citizen, Lopash, Manuscript, Grump — plus Custom CSS. Switch with ⌘1–⌘9.
 
-### Export 匯出
-![Export 匯出](docs/screenshots/export.png)
-> 點選右下角分享圖示（↑）開啟匯出面板，支援 HTML（含 CDN）、PDF（A4 分頁）、DOCX、MD、OPML 五種格式。
+### Export Panel
+![Export Panel](docs/screenshots/export.png)
+> Click the share icon (↑) at the bottom right to export as HTML (with CDN), PDF (A4 paginated), DOCX, MD, or OPML.
 
-## 功能特色
+## Features
 
-- **拖曳開啟** — 直接將 `.md` 檔案拖曳到視窗即可預覽
-- **CLI 啟動** — 在終端機以 `marked2u yourfile.md` 開啟指定檔案
-- **即時重新整理** — 儲存檔案後自動偵測變更並更新預覽
-- **語法高亮** — 透過 [highlight.js](https://highlightjs.org/) 支援數十種程式語言
-- **Mermaid 圖表** — 直接在 Markdown 中渲染流程圖、時序圖等
-- **Obsidian Callout** — 支援 `[!NOTE]`、`[!WARNING]` 等提示區塊
-- **Find Bar** — Ctrl+F / Cmd+F 全文搜尋，支援 Whole words、Case sensitive、Regex
-- **10 種 CSS Theme** — 內建 Obsidian、GitHub、Grump 等主題，支援 Custom CSS
-- **匯出** — 一鍵匯出 HTML（含 CDN）、PDF、DOCX、MD、OPML
-- **檔案關聯** — 安裝後可直接雙擊 `.md` / `.markdown` 檔案開啟
-- **視窗狀態記憶** — 記住上次視窗大小與位置
+- **Drag & Drop** — Drag any `.md` file onto the window to preview
+- **CLI Launch** — Open a file from the terminal with `marked2u yourfile.md`
+- **Live Reload** — Auto-detects file changes and updates the preview on save
+- **Syntax Highlighting** — Powered by [highlight.js](https://highlightjs.org/) for dozens of languages
+- **Mermaid Diagrams** — Render flowcharts, sequence diagrams, and more inline
+- **Obsidian Callouts** — Supports `[!NOTE]`, `[!WARNING]`, and other callout blocks
+- **Find Bar** — Ctrl+F / Cmd+F full-text search with Whole words, Case sensitive, Regex
+- **10 CSS Themes** — Built-in Obsidian, GitHub, Grump, and more; Custom CSS supported
+- **Export** — One-click export to HTML, PDF, DOCX, MD, OPML
+- **File Association** — Double-click `.md` / `.markdown` files to open after install
+- **Window State** — Remembers last window size and position
 
-## 快速開始
+## Getting Started
 
-最快的方法：將本專案丟給 AI agent 處理即可
+The fastest way: hand this repo to an AI agent.
 
-### 開發環境需求
+### Prerequisites
 
 - [Node.js](https://nodejs.org/) 18+
-- [Rust](https://rustup.rs/) 工具鏈
-- Tauri CLI 的[系統相依套件](https://tauri.app/start/prerequisites/)（依作業系統而異）
+- [Rust](https://rustup.rs/) toolchain
+- Tauri CLI [system dependencies](https://tauri.app/start/prerequisites/) (varies by OS)
 
-### 安裝相依套件
+### Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 開發模式
+### Development Mode
 
 ```bash
 npm run tauri dev
 ```
 
-### 建置正式版本
+### Production Build
 
 ```bash
 npm run tauri build
 ```
 
-編譯產物位於 `src-tauri/target/release/bundle/`。
+Output artifacts are in `src-tauri/target/release/bundle/`.
 
-## 使用方式
+## Usage
 
-**拖曳**：將任意 `.md` 檔案拖曳到 marked2u 視窗。
+**Drag & Drop**: Drag any `.md` file onto the marked2u window.
 
-**命令列**：
+**Command Line**:
 
 ```bash
 marked2u /path/to/yourfile.md
 ```
 
-檔案儲存後，預覽會自動更新，無需手動重新整理。
+The preview updates automatically when the file is saved — no manual refresh needed.
 
-## 安全性
+## Security
 
-Release 頁面提供的所有安裝檔均由 GitHub Actions 從原始碼自動編譯，並在發布前完成掃毒驗證：
+All release installers are compiled from source by GitHub Actions and scanned before publishing:
 
-- **Linux**（`.deb`、`.rpm`）— 由 GitHub Ubuntu runner 編譯，經 [ClamAV](https://www.clamav.net/) 掃描
-- **Windows**（`.exe`、`.msi`）— 由 GitHub Windows runner 編譯，經 Windows Defender 掃描
+- **Linux** (`.deb`, `.rpm`) — Built on GitHub Ubuntu runner, scanned with [ClamAV](https://www.clamav.net/)
+- **Windows** (`.exe`, `.msi`) — Built on GitHub Windows runner, scanned with Windows Defender
 
-掃毒任一不通過，Release 即不發布。你可以在 [Actions](../../actions) 頁面查看每次 Release 的完整 build log。
+If any scan fails, the release is not published. View the full build log for each release on the [Actions](../../actions) page.
 
 ### FAQ
 
-**Q：已經是從原始碼自動編譯，為何還要掃毒？**
+**Q: The binaries are already built from source — why scan for malware?**
 
-為確保端點與發布產物的安全，我們在 CI/CD pipeline 的產物輸出階段執行惡意程式碼掃描，用以偵測已知特徵的惡意 binary。此措施作為縱深防禦的最後一層，需搭配依賴審計、套件版本鎖定與 build 環境隔離，才能覆蓋完整的供應鏈威脅面。
+Scanning at the artifact output stage detects known malicious signatures in the final binary, serving as the last layer of defense-in-depth. It complements dependency auditing, pinned package versions, and isolated build environments to cover the full supply chain threat surface.
 
-**Q：為何不使用 VirusTotal？**
+**Q: Why not use VirusTotal?**
 
-VirusTotal 免費 API 限制為每日 1 次請求，不足以支援 CI/CD 流程（每次 Release 需掃描 4 個檔案）。本專案採用開源替代方案，在各平台原生環境直接掃描：Linux 使用 ClamAV、Windows 使用 Windows Defender。
+The free VirusTotal API is limited to 1 request per day — not enough for CI/CD (each release scans 4 files). This project uses platform-native alternatives instead: ClamAV on Linux and Windows Defender on Windows.
 
-**Q：為何沒有 macOS (.dmg)？**
+**Q: Why no macOS (.dmg)?**
 
-macOS 要求安裝檔必須經過 Apple 開發者簽章與 Notarization，未簽章的 `.dmg` 在 macOS 13+ 上會被 Gatekeeper 封鎖無法執行。本專案目前尚未取得 Apple Developer 憑證（每年需要 99 美元），待日後本專案自己有足夠資金支持取得後再提供 macOS 版本。
+macOS requires installers to be signed and notarized by an Apple Developer account. Unsigned `.dmg` files are blocked by Gatekeeper on macOS 13+. This project does not yet have an Apple Developer certificate ($99/year). A macOS build will be added once funding is available.
 
-## 技術棧
+## Tech Stack
 
-| 層級 | 技術 |
-|------|------|
-| 框架 | Tauri v2 |
-| 前端 | Vite + Vanilla JS |
+| Layer | Technology |
+|-------|-----------|
+| Framework | Tauri v2 |
+| Frontend | Vite + Vanilla JS |
 | Markdown | markdown-it |
-| 圖表 | Mermaid |
-| 語法高亮 | highlight.js |
-| 後端 | Rust (`notify`、`tauri-plugin-window-state`) |
+| Diagrams | Mermaid |
+| Syntax Highlighting | highlight.js |
+| Backend | Rust (`notify`, `tauri-plugin-window-state`) |
 
-## 授權
+## License
 
-本專案採用 [GNU General Public License v3.0](LICENSE)。
+This project is licensed under the [GNU General Public License v3.0](LICENSE).
